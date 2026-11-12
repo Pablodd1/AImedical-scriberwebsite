@@ -1,0 +1,6 @@
+{
+  "name": "AIMS — AI-Native Clinic Operating System",
+  "description": "AI-native clinical operating system uniting ambient AI medical scribing, longitudinal EHR, smart intake forms, visual OCR extraction, multi-agent medical encoding, and AI medical billing integrated with Office Ally.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,428 @@
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --color-surface: var(--aims-surface);
+  --color-surface-canvas: var(--aims-surface-canvas);
+  --color-surface-panel: var(--aims-surface-panel);
+  --color-surface-container-lowest: var(--aims-surface-lowest);
+  --color-surface-container-low: var(--aims-surface-low);
+  --color-surface-container: var(--aims-surface-container);
+  --color-surface-container-high: var(--aims-surface-high);
+  --color-surface-container-highest: var(--aims-surface-highest);
+  --color-clinical-teal: var(--aims-clinical-teal);
+  --color-clinical-teal-subtle: var(--aims-clinical-teal-subtle);
+  --color-primary: var(--aims-primary);
+  --color-primary-container: var(--aims-primary-container);
+  --color-on-primary: var(--aims-on-primary);
+  --color-text-primary: var(--aims-text-primary);
+  --color-text-secondary: var(--aims-text-secondary);
+  --color-text-muted: var(--aims-text-muted);
+  --color-on-surface: var(--aims-on-surface);
+  --color-on-surface-variant: var(--aims-on-surface-variant);
+  --color-border-subtle: var(--aims-border-subtle);
+  --color-border-strong: var(--aims-border-strong);
+  --color-alert-success: var(--aims-alert-success);
+  --color-alert-success-subtle: var(--aims-alert-success-subtle);
+  --color-alert-warning: var(--aims-alert-warning);
+  --color-alert-warning-subtle: var(--aims-alert-warning-subtle);
+  --color-alert-critical: var(--aims-alert-critical);
+  --color-audio-recording: var(--aims-audio-recording);
+  --color-inverse-surface: var(--aims-inverse-surface);
+  --color-inverse-on-surface: var(--aims-inverse-on-surface);
+}
+
+@layer base {
+  :root,
+  [data-theme="light"] {
+    --aims-surface: #f4f8ff;
+    --aims-surface-canvas: rgba(248, 251, 255, 0.78);
+    --aims-surface-panel: rgba(255, 255, 255, 0.84);
+    --aims-surface-lowest: rgba(255, 255, 255, 0.74);
+    --aims-surface-low: rgba(238, 245, 255, 0.76);
+    --aims-surface-container: rgba(227, 238, 255, 0.82);
+    --aims-surface-high: rgba(216, 232, 255, 0.86);
+    --aims-surface-highest: rgba(205, 226, 254, 0.9);
+    --aims-clinical-teal: #0d9488;
+    --aims-clinical-teal-subtle: rgba(13, 148, 136, 0.1);
+    --aims-primary: #00685f;
+    --aims-primary-container: #008378;
+    --aims-on-primary: #ffffff;
+    --aims-text-primary: #0f172a;
+    --aims-text-secondary: #475569;
+    --aims-text-muted: #64748b;
+    --aims-on-surface: #0b1c30;
+    --aims-on-surface-variant: #3d4947;
+    --aims-border-subtle: rgba(148, 163, 184, 0.28);
+    --aims-border-strong: rgba(100, 116, 139, 0.38);
+    --aims-alert-success: #059669;
+    --aims-alert-success-subtle: rgba(16, 185, 129, 0.12);
+    --aims-alert-warning: #d97706;
+    --aims-alert-warning-subtle: rgba(245, 158, 11, 0.14);
+    --aims-alert-critical: #e11d48;
+    --aims-audio-recording: #ef4444;
+    --aims-inverse-surface: #213145;
+    --aims-inverse-on-surface: #eaf1ff;
+    --aims-grid-dot-a: rgba(13, 148, 136, 0.11);
+    --aims-grid-dot-b: rgba(37, 99, 235, 0.055);
+    --aims-glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(241, 247, 255, 0.62) 100%);
+    --aims-glass-header-bg: rgba(250, 253, 255, 0.78);
+    --aims-glass-border: rgba(255, 255, 255, 0.78);
+    --aims-glass-rim: rgba(13, 148, 136, 0.2);
+    --aims-glass-shadow: 0 12px 36px -10px rgba(15, 23, 42, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.88);
+    --aims-glass-spotlight: rgba(13, 148, 136, 0.11);
+    --aims-aurora-a: rgba(20, 184, 166, 0.16);
+    --aims-aurora-b: rgba(56, 189, 248, 0.14);
+    --aims-aurora-c: rgba(99, 102, 241, 0.09);
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    --aims-surface: #050b14;
+    --aims-surface-canvas: rgba(11, 20, 36, 0.76);
+    --aims-surface-panel: rgba(15, 27, 46, 0.82);
+    --aims-surface-lowest: rgba(14, 25, 44, 0.7);
+    --aims-surface-low: rgba(18, 33, 58, 0.74);
+    --aims-surface-container: rgba(23, 42, 72, 0.8);
+    --aims-surface-high: rgba(29, 52, 88, 0.86);
+    --aims-surface-highest: rgba(36, 63, 106, 0.9);
+    --aims-clinical-teal: #14b8a6;
+    --aims-clinical-teal-subtle: rgba(20, 184, 166, 0.15);
+    --aims-primary: #14b8a6;
+    --aims-primary-container: #0d9488;
+    --aims-on-primary: #042f2e;
+    --aims-text-primary: #f1f5f9;
+    --aims-text-secondary: #94a3b8;
+    --aims-text-muted: #64748b;
+    --aims-on-surface: #e2e8f0;
+    --aims-on-surface-variant: #94a3b8;
+    --aims-border-subtle: rgba(148, 163, 184, 0.16);
+    --aims-border-strong: rgba(148, 163, 184, 0.28);
+    --aims-alert-success: #34d399;
+    --aims-alert-success-subtle: rgba(16, 185, 129, 0.15);
+    --aims-alert-warning: #fbbf24;
+    --aims-alert-warning-subtle: rgba(245, 158, 11, 0.15);
+    --aims-alert-critical: #fb7185;
+    --aims-audio-recording: #f87171;
+    --aims-inverse-surface: #e2e8f0;
+    --aims-inverse-on-surface: #0f172a;
+    --aims-grid-dot-a: rgba(20, 184, 166, 0.14);
+    --aims-grid-dot-b: rgba(56, 189, 248, 0.065);
+    --aims-glass-bg: linear-gradient(135deg, rgba(16, 29, 50, 0.76) 0%, rgba(9, 18, 33, 0.58) 100%);
+    --aims-glass-header-bg: rgba(8, 16, 30, 0.76);
+    --aims-glass-border: rgba(148, 163, 184, 0.18);
+    --aims-glass-rim: rgba(20, 184, 166, 0.34);
+    --aims-glass-shadow: 0 18px 42px -12px rgba(2, 6, 23, 0.58), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    --aims-glass-spotlight: rgba(20, 184, 166, 0.16);
+    --aims-aurora-a: rgba(20, 184, 166, 0.2);
+    --aims-aurora-b: rgba(14, 165, 233, 0.15);
+    --aims-aurora-c: rgba(45, 212, 191, 0.09);
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--aims-surface);
+    color: var(--aims-text-primary);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+/* Typography Hierarchy */
+.font-display-hero {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(2.25rem, 3.8vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+.font-headline-lg {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(1.65rem, 2.5vw, 2.05rem);
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.font-headline-md {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-headline-sm {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.625rem;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+.font-section-title {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+
+.font-body-lg {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  line-height: 1.625rem;
+  letter-spacing: -0.011em;
+  font-weight: 400;
+}
+
+.font-body-md {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  letter-spacing: -0.006em;
+}
+
+.font-body-sm {
+  font-family: "Inter", sans-serif;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+}
+
+.font-code-clinical {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-code-badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6875rem;
+  line-height: 0.875rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-caption {
+  font-family: "Inter", sans-serif;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================================
+   CLINICAL CRYSTAL GLASSMORPHISM SYSTEM ("GLASSWORTH" SURFACES)
+   ========================================================================= */
+
+.glass-header {
+  background: var(--aims-glass-header-bg);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid var(--aims-border-subtle);
+  box-shadow: 0 8px 32px -12px rgba(15, 23, 42, 0.12);
+}
+
+.glass-subbar {
+  background: var(--aims-surface-canvas);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.glass-surface,
+.bg-surface-container-lowest {
+  background: var(--aims-glass-bg);
+  backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(18px) saturate(165%);
+  border-color: var(--aims-glass-border);
+  box-shadow: var(--aims-glass-shadow);
+}
+
+.glass-spotlight-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--aims-glass-bg);
+  backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(18px) saturate(165%);
+  border: 1px solid var(--aims-border-subtle);
+  box-shadow: var(--aims-glass-shadow);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    var(--aims-glass-spotlight),
+    transparent 65%
+  );
+}
+
+.glass-spotlight-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--aims-glass-rim);
+}
+
+.glass-spotlight-card:hover::before {
+  opacity: 1;
+}
+
+/* Dark cinema glass HUD for video overlays (no heavy blur needed on software GL) */
+.glass-cinema-hud {
+  background: linear-gradient(135deg, rgba(10, 19, 34, 0.84) 0%, rgba(7, 14, 26, 0.72) 100%);
+  backdrop-filter: blur(14px) saturate(155%);
+  -webkit-backdrop-filter: blur(14px) saturate(155%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 36px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+/* Disable expensive backdrop-filter only inside the 1.35s WebGL2 ink clone stage for locked 60fps */
+[data-ink-clone="true"] .glass-header,
+[data-ink-clone="true"] .glass-subbar,
+[data-ink-clone="true"] .glass-surface,
+[data-ink-clone="true"] .bg-surface-container-lowest,
+[data-ink-clone="true"] .glass-spotlight-card,
+[data-ink-clone="true"] .glass-cinema-hud {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Ambient Refractive Aurora Mesh Backdrop */
+.clinical-grid-bg {
+  background-image:
+    radial-gradient(var(--aims-grid-dot-a) 1px, transparent 1px),
+    radial-gradient(var(--aims-grid-dot-b) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+@keyframes auroraDriftA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(38px, -24px, 0) scale(1.08);
+  }
+}
+
+@keyframes auroraDriftB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-34px, 28px, 0) scale(1.06);
+  }
+}
+
+.aurora-orb-a {
+  background: radial-gradient(circle, var(--aims-aurora-a) 0%, transparent 70%);
+  animation: auroraDriftA 16s ease-in-out infinite;
+  will-change: transform;
+}
+
+.aurora-orb-b {
+  background: radial-gradient(circle, var(--aims-aurora-b) 0%, transparent 70%);
+  animation: auroraDriftB 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+.aurora-orb-c {
+  background: radial-gradient(circle, var(--aims-aurora-c) 0%, transparent 70%);
+  animation: auroraDriftA 24s ease-in-out infinite reverse;
+  will-change: transform;
+}
+
+@keyframes wavePulse {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.wave-bar {
+  height: 24px;
+  transform-origin: center;
+  animation: wavePulse 1.2s ease-in-out infinite;
+}
+
+@keyframes sweepScan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.35;
+  }
+  80% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(220%);
+    opacity: 0;
+  }
+}
+
+.scan-beam {
+  animation: sweepScan 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.clinical-card-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clinical-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: var(--aims-glass-rim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-bar,
+  .scan-beam,
+  .aurora-orb-a,
+  .aurora-orb-b,
+  .aurora-orb-c {
+    animation: none !important;
+  }
+}
