@@ -362,7 +362,7 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
 
             <div className="px-6 py-4 border-t border-border-subtle bg-surface-canvas flex flex-wrap items-center justify-between gap-3 shrink-0">
               <span className="font-caption text-text-muted">
-                Questions for compliance? Email Jasmel@aimedicalscriber.com
+                For questions about privacy, call Jasmel at (786) 643-2099.
               </span>
               <button
                 type="button"
