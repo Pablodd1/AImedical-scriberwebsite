@@ -59,7 +59,7 @@ export const SignInModal: React.FC<SignInModalProps> = ({
           >
             <div className="px-6 py-4 border-b border-border-subtle flex items-center justify-between bg-surface-canvas">
               <div className="flex items-center gap-2.5">
-                <AimsBrandLogo className="w-6 h-6 shrink-0" />
+                <AimsBrandLogo className="h-8" />
                 <span className="font-section-title text-text-primary">
                   AIMS Account Sign-In
                 </span>

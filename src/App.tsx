@@ -236,7 +236,7 @@ export default function App() {
               onClick={() => handleNavigateSection('platform')}
               className="flex items-center gap-2.5 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <AimsBrandLogo className="w-7 h-7 shrink-0" />
+              <AimsBrandLogo className="h-9 sm:h-10" />
               <span className="font-section-title text-text-primary tracking-tight font-bold">
                 AIMS
               </span>
@@ -403,7 +403,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-8">
               <div className="md:col-span-4 lg:col-span-2 flex flex-col gap-3">
                 <div className="flex items-center gap-2.5">
-                  <AimsBrandLogo className="w-7 h-7 shrink-0" />
+                  <AimsBrandLogo className="h-12" />
                   <span className="font-headline-sm text-text-primary font-bold">
                     AIMS — Clinic Operating System
                   </span>
