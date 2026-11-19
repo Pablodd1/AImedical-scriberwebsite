@@ -1,3 +1,4 @@
+import { ReviewContact, siteReview } from './ReviewContact';
 import React, { useMemo, useState } from 'react';
 import {
   AUTOMATION_SYSTEMS,
@@ -16,7 +17,7 @@ interface SecurityAndBillingScreenProps {
 
 const CONSENT_TEMPLATES = [
   'Form 01 — Informed Clinical & Rehabilitative Care Consent',
-  'Form 02 — HIPAA-Conscious Privacy Notice & Ambient AI Scribe Authorization',
+  'Form 02 — Sample Privacy Notice & Scribe Authorization',
   'Form 03 — Telehealth Consultation & Digital Communications Consent',
   'Form 04 — Financial Policy, Insurance Assignment & Billing Authorization',
 ];
@@ -52,7 +53,7 @@ const PRACTICE_ANALYTICS = [
   { metric: 'Patient Biomarker Trajectories', label: 'Longitudinal lab & functional outcome trends across visits' },
   { metric: 'Schedule & Arrival Analytics', label: 'Check-in velocity, completion rates & reminder confirmations' },
   { metric: 'Intake & Visual OCR Adoption', label: 'Pre-visit digital intake & insurance scan completion rates' },
-  { metric: 'Multi-Agent Consensus Insights', label: 'Clinical safety alerts caught & pre-sign QA completions' },
+  { metric: 'Consensus Insights', label: 'Clinical safety alerts caught & pre-sign QA completions' },
   { metric: 'Provider Time-Saved Report', label: 'After-hours charting & manual coding hours eliminated' },
 ];
 
@@ -142,12 +143,11 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                 AI Medical Billing · AI Medical Encoding · Office Ally Integration
               </div>
               <h1 className="font-display-hero text-text-primary mt-1">
-                AI Medical Billing, Coding &amp; Office Ally Sync.
+                From a signed note to a claim draft
               </h1>
               <p className="font-body-lg text-text-secondary max-w-3xl mt-2">
-                Turn signed clinical encounters into clean, compliant claims automatically. AIMS
-                extracts ICD-10 diagnoses, CPT procedures, and modifiers, scrubs superbills for
-                medical necessity, and integrates directly with <strong>Office Ally</strong>.
+                Walk through a sample billing handoff. See the diagnoses, procedures, and modifiers a biller would
+                review before sending a claim through a clearinghouse such as Office Ally.
               </p>
             </div>
 
@@ -182,7 +182,7 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                     </span>
                     <span>
                       <strong>AI Medical Encoding:</strong> Maps SOAP findings to ICD-10, CPT, and
-                      modifiers across 15,716 coding rules.
+                      modifiers across coding rules.
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
@@ -518,11 +518,11 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                   Clinical Privacy, Governance &amp; BAA
                 </span>
                 <span className="font-caption font-semibold text-alert-success">
-                  BAA Available
+                  Ask about a BAA
                 </span>
               </div>
               <h2 className="font-headline-md text-text-primary">
-                Built for HIPAA-Conscious Clinical Workflows
+                Privacy and onboarding questions
               </h2>
               <ul className="space-y-2.5 font-body-sm text-text-secondary">
                 <li className="flex items-start gap-2">
@@ -531,8 +531,7 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                   </span>
                   <span>
                     <strong className="text-text-primary">Business Associate Agreement (BAA):</strong>{' '}
-                    Executed with onboarding practices prior to live PHI migration, following
-                    patientless sandbox training.
+                    Ask the AIMS team about agreement terms and requirements before using patient data.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -541,8 +540,7 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                   </span>
                   <span>
                     <strong className="text-text-primary">Protected Clinical AI Processing:</strong>{' '}
-                    Encounter audio, intake answers, and visual OCR scans are processed privately
-                    with strict clinic-level isolation.
+                    Confirm how the live product would handle visit audio, intake answers, and scanned documents.
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
@@ -551,8 +549,7 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                   </span>
                   <span>
                     <strong className="text-text-primary">Role-Scoped Clinic Access:</strong>{' '}
-                    Dedicated permission scopes across Clinic Owners, Doctors, Front-Desk Staff, and
-                    self-service Portal Patients.
+                    Review which records owners, clinicians, front-desk staff, and patients would be able to access.
                   </span>
                 </li>
               </ul>
@@ -564,7 +561,7 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                     onClick={() => onOpenLegalPolicy('baa')}
                     className="text-clinical-teal font-semibold hover:underline cursor-pointer"
                   >
-                    Read HIPAA &amp; BAA Policy →
+                    Read privacy and BAA information →
                   </button>
                 </div>
               )}
@@ -600,12 +597,11 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                 Practice Rollout &amp; Guided Onboarding
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
-                Flexible Clinic Deployment Configurations
+                Onboarding for different practice sizes
               </h2>
             </div>
             <span className="font-body-sm text-text-secondary">
-              Every rollout includes staff training sandboxes, patientless scribe simulation &amp;
-              CSV chart onboarding.
+              Ask about staff training and chart migration during your walkthrough.
             </span>
           </div>
 
@@ -614,13 +610,13 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
               {
                 tier: 'Solo Practice Edition',
                 badge: '1 Provider + Front Desk',
-                desc: 'Full Unified EHR, 7-step flow + 60s Quick-Note, Ambient AI Medical Scribe with Dual-Agent review, 33-question spoken intake, Visual OCR, and Patient Portal.',
+                desc: 'Full Unified EHR, 7-step flow + 60s Quick-Note, Ambient AI Medical Scribe with review, 33-question spoken intake, Visual OCR, and Patient Portal.',
                 cta: 'Request Solo Demo & Quote',
               },
               {
                 tier: 'Multi-Provider Clinic Suite',
                 badge: 'Most Popular · Full AI Billing',
-                desc: 'Adds the 5-Agent Specialist Consensus Board, full AI Medical Coding & Encoding, automated superbill scrubbing, and direct Office Ally clearinghouse integration.',
+                desc: 'Adds the clinical review, full AI Medical Coding & Encoding, automated superbill scrubbing, and direct Office Ally clearinghouse integration.',
                 cta: 'Book Clinic Suite Walkthrough',
                 featured: true,
               },
@@ -711,11 +707,11 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
         </section>
       </div>
 
-      <BookDemoSection
+      {siteReview ? <ReviewContact id="book-demo" /> : <BookDemoSection
         onNotify={onNotify}
         onOpenFullContact={onOpenFullContact}
         contextLabel="AI Medical Billing · Office Ally Integration · Privacy & BAA"
-      />
+      />}
     </div>
   );
 };

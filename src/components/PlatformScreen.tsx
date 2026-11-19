@@ -1,16 +1,11 @@
+import { ReviewContact, siteReview } from './ReviewContact';
 import React, { useState } from 'react';
 import { AppTabId } from '../App';
 import { PLATFORM_ROLES } from '../data/aimsSpecData';
 import { ContactHubSection } from './ContactHubSection';
 import { GlassCard } from './GlassCard';
-import { HeroVideoShowcase } from './HeroVideoShowcase';
+import { HeroWorkflow } from './HeroWorkflow';
 
-export const STITCH_IMAGES = {
-  heroEncounter:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDXndZ0BYOPllNEsAW476O-iP2BmJivD0eCsd1FRIw3aGeNz9Oc-psOk7SEegwVzFdZyUin-gMGO3NS3D8tD1oOjYqyYr21rCeab8DPFe1pNIoJ9BEmDCXH5R2TS2NWsgYU11e3DKzug1zcnYIyaic-Nr6ODBlTvYNfh7-vJzmrKDyp8DqWqCJ92_FENawvJZ5zFPm1ezm40hCB3JjOfGrQYNF1AONMS0lQU5W2AW70',
-  directorPortrait:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuD3aZG2g5y_42i2S1n3mWmtq26261yyGWH0s-mVCS26lyoUMXqEoyMRTtpkuZqbD3_xXFws6O7-lAu3a_dsR1piT5_W-smKmpI2GbIPjiLJVNR1j-OFTICpAuy19OhYg92X069XzWR0TwJ6iaLYFbsxJxrsqjw1WylfsAGL2EbVMelsR6rX35-UB6gzX9ZSKykaRuxxF5JQl2IXA7mBX12ffxLstJc3ssXDk3VjGszt',
-};
 
 interface PlatformScreenProps {
   onNavigateSection: (tab: AppTabId, sectionId?: string) => void;
@@ -33,10 +28,10 @@ const SPECIALTY_PROFILES: SpecialtyProfile[] = [
     intakeFocus:
       'Pain body-mapping, functional disability scores, mechanism of injury, and visual insurance/auto-medpay card OCR.',
     scribeAndSoap:
-      'Captures orthopedic maneuvers (Spurling’s, SLR, Kemp’s), segmental findings, and visit-to-visit ROM deltas automatically.',
+      'Example note with orthopedic exam findings and changes in range of motion between visits.',
     codingExample: 'M54.12 · M99.01 · 98940-25 · 97012 · 97110',
     billingImpact:
-      'Substantiates modifier -25 and timed therapy units automatically before syncing clean 837P claims to Office Ally.',
+      'Example billing review for modifier 25 and timed therapy units before claim submission.',
   },
   {
     id: 'primary-care',
@@ -44,7 +39,7 @@ const SPECIALTY_PROFILES: SpecialtyProfile[] = [
     intakeFocus:
       '33-question multilingual ROS, medication reconciliation, allergy checks, and photo extraction of external lab sheets.',
     scribeAndSoap:
-      'Separates multi-problem chronic care visits into structured HPI, Assessment & Plan per condition, plus 60s follow-up Quick-Notes.',
+      'Separates multi-problem chronic care visits into structured HPI, Assessment & Plan per condition, with a shorter note option for follow-up visits.',
     codingExample: 'E11.9 · I10 · E78.5 · 99214 · G2211',
     billingImpact:
       'Captures E/M MDM complexity, preventive add-on codes, and chronic care documentation ready for Office Ally.',
@@ -55,7 +50,7 @@ const SPECIALTY_PROFILES: SpecialtyProfile[] = [
     intakeFocus:
       'Prior imaging history, conservative therapy timeline, surgical history, and referral/authorization OCR extraction.',
     scribeAndSoap:
-      'Documents dermatomal deficits, motor strength grading, procedure consents, and multi-agent red-flag safety screening.',
+      'Documents dermatomal deficits, motor strength grading, procedure consents, and red-flag safety screening.',
     codingExample: 'M51.16 · G89.29 · 99214-25 · 20610 · 76942',
     billingImpact:
       'Verifies medical-necessity criteria and diagnosis pointers so interventional and evaluation claims pass clearinghouse edits.',
@@ -88,8 +83,8 @@ const SPECIALTY_PROFILES: SpecialtyProfile[] = [
     intakeFocus:
       'Shared longitudinal patient registry across providers and locations with 24/7 AI receptionist triage and automated reminders.',
     scribeAndSoap:
-      'Specialty-specific SOAP templates per provider, 5-Agent Consensus Board for complex co-managed cases, and morning provider briefings.',
-    codingExample: '15,716 ICD-10 & CPT Rules · Multi-Provider QA',
+      'Specialty-specific SOAP templates per provider, clinical review for complex co-managed cases, and morning provider briefings.',
+    codingExample: 'ICD-10 & CPT Rules · Multi-Provider QA',
     billingImpact:
       'Centralized claim scrubbing, provider productivity analytics, and unified Office Ally clearinghouse reconciliation.',
   },
@@ -99,7 +94,7 @@ const CAPABILITY_CARDS = [
   {
     icon: 'mic',
     title: 'Ambient AI Medical Scribe',
-    desc: 'Captures natural clinical encounters, answers mid-visit chart questions, and generates structured SOAP notes—plus a 60-second Express Quick-Note mode for follow-up visits.',
+    desc: 'Captures natural clinical encounters, answers mid-visit chart questions, and generates structured SOAP notes—plus a follow-up quick note mode for follow-up visits.',
     footLabel: 'Explore Scribe & 3D Array',
     targetTab: 'ai-scribe' as AppTabId,
     sectionId: 'section-scribe',
@@ -122,16 +117,16 @@ const CAPABILITY_CARDS = [
   },
   {
     icon: 'psychology',
-    title: 'Multi-Agent Clinical Review',
-    desc: 'Dual-Agent Builder + Reviewer verification and a 5-Agent Specialist Consensus Board continuously auditing clinical reasoning, safety red flags, and chart completeness.',
-    footLabel: 'Inspect 5-Agent Board',
+    title: 'Clinical Review',
+    desc: 'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
+    footLabel: 'Explore clinical review',
     targetTab: 'ai-scribe' as AppTabId,
     sectionId: 'section-scribe',
   },
   {
     icon: 'fact_check',
     title: 'AI Medical Coding & Encoding',
-    desc: 'Automated clinical entity extraction mapping exam findings directly to high-specificity ICD-10 diagnoses, CPT procedures, and modifiers across 15,716 coding rules.',
+    desc: 'Automated clinical entity extraction mapping exam findings directly to high-specificity ICD-10 diagnoses, CPT procedures, and modifiers across coding rules.',
     footLabel: 'View Coding Workflows',
     targetTab: 'ai-scribe' as AppTabId,
     sectionId: 'section-ai-tools',
@@ -160,7 +155,7 @@ const BEFORE_VS_WITH_AIMS = [
   {
     stage: 'Medical Coding & QA',
     before: 'Manual ICD-10/CPT lookup, missed modifiers (-25), and avoidable claim denials',
-    after: 'Multi-Agent SOAP verification & automated encoding across 15,716 coding rules',
+    after: 'SOAP verification & automated encoding across coding rules',
   },
   {
     stage: 'Billing & Clearinghouse',
@@ -174,7 +169,6 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
   onNotify,
 }) => {
   const [signState, setSignState] = useState<'idle' | 'signing' | 'signed'>('idle');
-  const [portraitFailed, setPortraitFailed] = useState(false);
   const [activeSpecialtyId, setActiveSpecialtyId] = useState(SPECIALTY_PROFILES[0].id);
 
   const activeSpecialty =
@@ -199,75 +193,12 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
 
   return (
     <div className="flex flex-col w-full">
-      {/* 1. Top Section: Responsive Hero Video with Frosted-Glass Overlay Introducing the AIMS Interface */}
-      <HeroVideoShowcase
-        fallbackEncounterUrl={STITCH_IMAGES.heroEncounter}
+      {/* 1. Clinic workflow introduction */}
+      <HeroWorkflow
         onNavigateSection={onNavigateSection}
-        onNotify={onNotify}
       />
 
-      {/* 2. Key Clinical Impact Metrics Strip */}
-      <section className="px-4 sm:px-8 pb-6 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-          <GlassCard className="flex flex-col p-5">
-            <div className="flex items-center justify-between text-clinical-teal mb-1 relative z-10">
-              <span className="font-headline-md font-bold tabular-nums">18</span>
-              <span className="material-symbols-outlined text-clinical-teal text-xl">
-                medical_information
-              </span>
-            </div>
-            <span className="font-body-sm text-text-primary font-semibold relative z-10">
-              AI Clinical Workflows
-            </span>
-            <span className="font-caption text-text-muted mt-0.5 relative z-10">
-              Scribe, Intake, OCR, Agents &amp; Coding
-            </span>
-          </GlassCard>
-
-          <GlassCard className="flex flex-col p-5">
-            <div className="flex items-center justify-between text-clinical-teal mb-1 relative z-10">
-              <span className="font-headline-md font-bold tabular-nums">15,716</span>
-              <span className="material-symbols-outlined text-clinical-teal text-xl">verified</span>
-            </div>
-            <span className="font-body-sm text-text-primary font-semibold relative z-10">
-              Medical Coding Rules
-            </span>
-            <span className="font-caption text-text-muted mt-0.5 relative z-10">
-              Automated ICD-10, CPT &amp; Modifier Encoding
-            </span>
-          </GlassCard>
-
-          <GlassCard className="flex flex-col p-5">
-            <div className="flex items-center justify-between text-clinical-teal mb-1 relative z-10">
-              <span className="font-headline-md font-bold tabular-nums">&lt;60s</span>
-              <span className="material-symbols-outlined text-clinical-teal text-xl">bolt</span>
-            </div>
-            <span className="font-body-sm text-text-primary font-semibold relative z-10">
-              Express Follow-Up Notes
-            </span>
-            <span className="font-caption text-text-muted mt-0.5 relative z-10">
-              Rapid charting for returning patients
-            </span>
-          </GlassCard>
-
-          <GlassCard className="flex flex-col p-5">
-            <div className="flex items-center justify-between text-clinical-teal mb-1 relative z-10">
-              <span className="font-headline-md font-bold">Office Ally</span>
-              <span className="material-symbols-outlined text-clinical-teal text-xl">
-                receipt_long
-              </span>
-            </div>
-            <span className="font-body-sm text-text-primary font-semibold relative z-10">
-              AI Medical Billing Sync
-            </span>
-            <span className="font-caption text-text-muted mt-0.5 relative z-10">
-              Clean 837P claims, eligibility &amp; ERAs
-            </span>
-          </GlassCard>
-        </div>
-      </section>
-
-      {/* 3. Interactive Workspace Preview: Ambient AI Medical Scribe & Multi-Agent Encoding */}
+      {/* 3. Interactive Workspace Preview: Ambient AI Medical Scribe & Encoding */}
       <section className="px-4 sm:px-8 py-10 max-w-7xl mx-auto w-full">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
@@ -276,7 +207,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                 Live Clinical Interface Preview
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
-                Ambient AI Medical Scribe, Multi-Agent Review &amp; Medical Encoding
+                Ambient AI Medical Scribe, Review &amp; Medical Encoding
               </h2>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-text-secondary font-code-clinical">
@@ -315,7 +246,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
               </div>
             </div>
 
-            {/* Asymmetric Split Grid: 58% Live Encounter & Copilot, 42% Multi-Agent SOAP & Encoding */}
+            {/* Asymmetric Split Grid: 58% Live Encounter & Copilot, 42% SOAP & Encoding */}
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
               {/* Left Column: Live Ambient Conversation & Extraction */}
               <div className="lg:col-span-7 p-6 flex flex-col justify-between bg-surface-panel border-b lg:border-b-0 lg:border-r border-border-subtle">
@@ -439,7 +370,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                 </div>
               </div>
 
-              {/* Right Column: Dual-Agent SOAP & Medical Encoding */}
+              {/* Right Column: SOAP & Medical Encoding */}
               <div className="lg:col-span-5 p-6 bg-surface-canvas flex flex-col gap-5 justify-between">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between pb-1">
@@ -448,18 +379,18 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                         psychology
                       </span>
                       <span className="font-section-title text-text-primary">
-                        Multi-Agent SOAP &amp; Encoding
+                        SOAP &amp; Encoding
                       </span>
                     </div>
-                    <span className="font-code-badge text-alert-success">Consensus Verified</span>
+                    <span className="font-code-badge text-alert-success">Ready for review</span>
                   </div>
 
-                  {/* Agent 1: Clinical Builder */}
+                  {/* Agent 1: Draft note */}
                   <div className="p-4 bg-surface-panel rounded-xl border border-border-subtle shadow-sm space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-code-badge text-clinical-teal font-bold flex items-center gap-1">
                         <span className="material-symbols-outlined text-xs">auto_fix_high</span>
-                        <span>Agent 1 · Clinical Builder &amp; Encoder</span>
+                        <span>Draft clinical note</span>
                       </span>
                       <span className="font-caption text-text-muted">Structured SOAP</span>
                     </div>
@@ -513,7 +444,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                     <div className="flex items-center justify-between relative z-10">
                       <span className="font-code-badge text-clinical-teal font-bold flex items-center gap-1">
                         <span className="material-symbols-outlined text-xs">verified</span>
-                        <span>Agent 2 · Coding &amp; Billing Reviewer</span>
+                        <span>Coding review</span>
                       </span>
                       <span className="inline-flex items-center text-alert-success font-code-badge gap-1">
                         <span className="material-symbols-outlined text-xs">check_circle</span>
@@ -523,7 +454,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                     <p className="font-body-sm text-text-secondary leading-snug relative z-10">
                       Verified against{' '}
                       <span className="font-code-clinical text-text-primary font-semibold">
-                        15,716 ICD-10 &amp; CPT coding rules
+                        ICD-10 &amp; CPT coding rules
                       </span>
                       . Objective Spurling&rsquo;s maneuver and ROM measurements substantiate
                       modifier -25. Formatted for seamless Office Ally claim submission.
@@ -586,7 +517,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                 Unified Clinical Capabilities
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
-                Scribe, EHR, Intake, Visual OCR, Multi-Agents &amp; Billing
+                Scribe, EHR, Intake, Visual OCR, &amp; Billing
               </h2>
             </div>
             <button
@@ -798,53 +729,8 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
         </div>
       </section>
 
-      {/* 7. Clinical Testimonial Card */}
-      <section className="px-4 sm:px-8 py-8 max-w-7xl mx-auto w-full">
-        <GlassCard
-          interactive={false}
-          className="p-6 sm:p-10 flex flex-col md:flex-row items-center gap-8"
-        >
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shrink-0 border-2 border-clinical-teal/30 bg-surface-container">
-            {!portraitFailed ? (
-              <img
-                src={STITCH_IMAGES.directorPortrait}
-                alt="Dr. Melissa Vance, DC — Clinical Director at Vance Spine & Rehabilitation Institute"
-                referrerPolicy="no-referrer"
-                onError={() => setPortraitFailed(true)}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-clinical-teal font-headline-md">
-                MV
-              </div>
-            )}
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center gap-1 text-alert-warning" aria-label="5 out of 5 stars">
-              {Array.from({ length: 5 }, (_, i) => (
-                <span key={i} className="material-symbols-outlined text-base">
-                  star
-                </span>
-              ))}
-            </div>
-            <p className="font-headline-sm text-text-primary italic leading-relaxed">
-              &ldquo;AIMS eliminated over two hours of nightly charting and manual coding. Patients
-              finish their intake and visual insurance card scan before entering the exam room, our
-              multi-agent review catches every modifier, and clean claims flow straight into Office
-              Ally.&rdquo;
-            </p>
-            <div className="flex flex-col pt-1">
-              <span className="font-section-title text-text-primary">Dr. Melissa Vance, DC</span>
-              <span className="font-body-sm text-text-muted">
-                Clinical Director · Vance Spine &amp; Rehabilitation Institute
-              </span>
-            </div>
-          </div>
-        </GlassCard>
-      </section>
-
       {/* 8. Comprehensive Contact Hub (4 Contact Areas + Validated Contact Form with Check-Mark Animations) */}
-      <ContactHubSection onNotify={onNotify} />
+      {siteReview ? <ReviewContact id="section-contact" /> : <ContactHubSection onNotify={onNotify} />}
     </div>
   );
 };

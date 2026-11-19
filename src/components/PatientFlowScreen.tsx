@@ -1,3 +1,4 @@
+import { ReviewContact, siteReview } from './ReviewContact';
 import React, { useState } from 'react';
 import { CORE_EHR_MODULES } from '../data/aimsSpecData';
 import { BookDemoSection } from './BookDemoSection';
@@ -92,11 +93,11 @@ const SEVEN_STEPS_DATA: StepDetail[] = [
   },
   {
     num: '06',
-    title: 'Multi-Agent Review & Encoding',
-    stageLabel: 'Multi-Agent Coding QA',
-    duration: 'Builder + Reviewer',
+    title: 'Review & Encoding',
+    stageLabel: 'Coding QA',
+    duration: 'Draft and review',
     summary:
-      'Agent 1 ("Builder") drafts the SOAP note, ICD-10 diagnoses, CPT procedures, and care plan; Agent 2 ("Reviewer") and the 5-Agent Board verify accuracy across 15,716 coding rules.',
+      'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
     payload: [
       { label: 'Encoded ICD-10 & CPT', value: 'M54.12 · M99.01 · 98940-25 · 97012' },
       { label: 'Medical Necessity', value: 'Modifier -25 substantiated by objective exam' },
@@ -232,13 +233,11 @@ export const PatientFlowScreen: React.FC<PatientFlowScreenProps> = ({
                 Patient Journey · Unified EHR · Self-Service Portal
               </div>
               <h1 className="font-display-hero text-text-primary mt-1">
-                7-Step Clinical Flow, Full EHR &amp; Patient Portal.
+                Follow a patient visit from check-in to sign-off
               </h1>
               <p className="font-body-lg text-text-secondary max-w-3xl mt-2">
-                Walk through every stage from multilingual intake and visual OCR extraction to
-                signed EHR notes and Office Ally claims—or switch on{' '}
-                <span className="font-semibold text-clinical-teal">Express Quick-Note</span> to
-                finish returning visits in under 60 seconds.
+                Use a sample visit to see how intake details reach the chart, how a clinician reviews a draft note,
+                and what the billing handoff could look like. For a return visit, try the shorter follow-up note.
               </p>
             </div>
 
@@ -603,11 +602,11 @@ export const PatientFlowScreen: React.FC<PatientFlowScreenProps> = ({
         </section>
       </div>
 
-      <BookDemoSection
+      {siteReview ? <ReviewContact id="book-demo" /> : <BookDemoSection
         onNotify={onNotify}
         onOpenFullContact={onOpenFullContact}
         contextLabel="7-Step Flow · Unified EHR · Visual OCR · Patient Portal"
-      />
+      />}
     </div>
   );
 };

@@ -49,6 +49,6 @@ export const AimsBrandLogo: React.FC<{ className?: string }> = ({ className = 'h
     alt=""
     width={276}
     height={235}
-    className={`w-auto shrink-0 rounded-md bg-white p-0.5 object-contain ring-1 ring-black/15 ${className}`}
+    className={`w-auto shrink-0 object-contain ${className}`}
   />
 );

@@ -585,6 +585,7 @@ export interface InkTransitionRunOptions {
   getMode: () => InkShaderMode;
   getParams: () => InkTuningParams;
   applyThemeToLiveDOM: (theme: ThemeMode) => void;
+  accentReveal?: boolean;
   onProgress?: (progress: number) => void;
   onComplete?: () => void;
 }
@@ -652,11 +653,13 @@ export class InkBleedTransitionController {
     themeCanvasRenderers.forEach((renderFn) => renderFn(opts.newTheme));
     const newCanvasSnaps = captureCanvasBitmaps(pageRoot);
     const newVideoSnaps = captureVideoBitmaps(pageRoot);
+    const newScrollX = window.scrollX;
+    const newScrollY = window.scrollY;
     const newClone = createSyncedPageClone(
       pageRoot,
       opts.newTheme,
-      scrollX,
-      scrollY,
+      newScrollX,
+      newScrollY,
       newCanvasSnaps,
       newVideoSnaps
     );
@@ -699,6 +702,12 @@ export class InkBleedTransitionController {
     oldGroup.style.overflow = 'hidden';
     oldGroup.style.backgroundColor = opts.oldTheme === 'dark' ? '#070d17' : '#f8f9ff';
     oldGroup.appendChild(oldClone);
+    if (opts.accentReveal) {
+      const wash = document.createElement('div');
+      wash.style.cssText = 'position:absolute;inset:0;background:#355b82;pointer-events:none';
+      oldGroup.appendChild(wash);
+      wash.animate([{ opacity: 0 }, { opacity: 0.2 }], { duration: 170, fill: 'forwards' });
+    }
     oldGroup.appendChild(oldPass.canvas);
 
     // Group B: New-theme DOM clone (plus-lighter) beneath WebGL2 canvas outputting vec3(ink) with multiply
@@ -732,7 +741,7 @@ export class InkBleedTransitionController {
       const sx = window.scrollX;
       const sy = window.scrollY;
       const transform = `translate3d(${-sx}px, ${-sy}px, 0)`;
-      oldClone.style.transform = transform;
+      oldClone.style.transform = `translate3d(${-sx + newScrollX - scrollX}px, ${-sy + newScrollY - scrollY}px, 0)`;
       newClone.style.transform = transform;
     };
     window.addEventListener('scroll', handleScrollSync, { passive: true });

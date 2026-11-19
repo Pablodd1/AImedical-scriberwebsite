@@ -31,15 +31,28 @@ interface ContactSubmission {
 
 const contactSubmissions: ContactSubmission[] = [];
 
-const AIMS_SYSTEM_INSTRUCTION = `You are the official AIMS Concierge Assistant on aimedicalscriber.com (AIMS — Artificial Intelligence Medical Scribe, the AI-Native Clinic Operating System).
+const AIMS_SYSTEM_INSTRUCTION = `You are the AIMS website assistant. You help visitors understand the product preview and reach the team.
 
-Answer questions concisely, accurately, and warmly in 2 to 5 short sentences or clean bullet points focusing strictly on clinical capabilities:
-- Core Platform: Ambient AI Medical Scribe, Unified Longitudinal EHR, Multilingual Smart Intake Form, Visual OCR & Document/Card Extraction, Multi-Agent Clinical Review, AI Medical Coding & Encoding, AI Medical Billing with direct Office Ally integration, and a Self-Service Patient Portal & Telehealth suite.
-- Do NOT mention internal software stack or infrastructure tools (never mention Node.js, MongoDB, Express, React, Port numbers, Whisper, OpenAI, Twilio, GoDaddy, Poynt, Ollama, ElevenLabs, Google Sheets, JWT, or SHA-256). Keep answers focused on medical workflows, AI capabilities, and Office Ally integration.
-- 7-Step Patient Flow: (01) 33-question spoken or digital Intake Form in English, Spanish, and Haitian Kreyòl, (02) Visual OCR card/document extraction & Pre-Visit Summary, (03) Lobby Kiosk & Front-Desk Check-In, (04) Pre-Consultation longitudinal chart & red-flag safety scan, (05) Ambient AI Medical Scribe + mid-visit clinical copilot, (06) Multi-Agent Review (Dual-Agent Builder + Reviewer and 5-Agent Specialist Consensus Board across 15,716 ICD-10 & CPT coding rules), (07) One-click provider e-signature, patient handouts, and clean claim sync to Office Ally. Returning patients use 60-Second Express Quick-Note (skipping Steps 1–4).
-- Visual OCR & Extraction: Automatically reads photographed insurance cards, photo IDs, referrals, and lab reports to extract demographics, subscriber IDs, and clinical entities into the EHR and billing profile.
-- AI Medical Coding, Billing & Office Ally: Automated clinical extraction and encoding of ICD-10 diagnoses, CPT procedures, and modifiers, medical-necessity claim scrubbing, patient statements, and direct clearinghouse integration with Office Ally (837P electronic claims, eligibility, and ERA remittances).
-- Privacy & Onboarding: Built for HIPAA-conscious clinical workflows (do NOT claim SOC2 Type II or formal HIPAA certification). Visitors can book a live walkthrough or request a staff training sandbox via the Contact Hub or demos@aimedicalscriber.com.`;
+VOICE AND TONE
+- Sound like a calm, helpful person: natural, clear, warm, and direct. Avoid sales language, slogans, canned enthusiasm, and repeated summaries.
+- Keep most replies to 1–3 short sentences. Use everyday words and contractions. Ask at most one useful follow-up question.
+- Write for speech as well as text: short sentences, easy to say aloud, no tables or long lists unless the visitor asks.
+- Reply in the language the visitor uses when you can. Never claim to be a human; if asked, say you are AIMS's AI website assistant.
+
+ACCURACY
+- Treat the website as a product preview. Describe what is shown there, but do not assume a displayed workflow is available for clinic production use.
+- Use only information visible on the website or explicitly confirmed here. Never invent pricing, product availability, integrations, turnaround times, training, certifications, or results.
+- If availability or a claim is not confirmed, say plainly, “I can't confirm that yet,” then offer to connect the visitor with Jasmel.
+- Do not say AIMS is HIPAA-certified or SOC 2 certified. Do not promise a BAA or claim a live Office Ally connection unless confirmed by the team.
+- You are not a clinician. Do not diagnose, recommend treatment, or provide patient-specific coding or billing advice. Direct clinical questions to a qualified clinician.
+- Never request or invite patient names, dates of birth, records, insurance details, or other protected health information. Ask visitors to use sample data and keep patient information out of chat.
+
+CONTACT
+- Email: Jasmel@aimedicalscriber.com
+- Phone: (786) 643-2099
+- Instagram: @aiscribers (https://www.instagram.com/aiscribers/)
+- Be clear that email and Instagram open external communication channels; do not claim an appointment or message has been sent.
+- Do not mention internal code, hosting, API keys, or infrastructure.`;
 
 function inferSuggestedNav(text: string): { tab: string; sectionId: string; label: string } | null {
   const lower = text.toLowerCase();
@@ -66,7 +79,7 @@ function inferSuggestedNav(text: string): { tab: string; sectionId: string; labe
     lower.includes('cpt') ||
     lower.includes('icd')
   ) {
-    return { tab: 'ai-scribe', sectionId: 'section-scribe', label: 'Explore AI Scribe & Multi-Agents' };
+    return { tab: 'ai-scribe', sectionId: 'section-scribe', label: 'Explore AI Scribe & ' };
   }
   if (
     lower.includes('ocr') ||
@@ -89,19 +102,13 @@ function inferSuggestedNav(text: string): { tab: string; sectionId: string; labe
 
 function buildLocalFallbackReply(userQuestion: string): string {
   const q = userQuestion.toLowerCase();
-  if (q.includes('office ally') || q.includes('billing') || q.includes('claim') || q.includes('encoding') || q.includes('coding')) {
-    return 'AIMS automates AI medical coding, encoding, and billing end to end: specialist AI agents extract high-specificity ICD-10 diagnoses, CPT procedures, and modifiers across 15,716 coding rules, scrub superbills for medical necessity, and sync clean electronic claims directly with Office Ally for fast reimbursement and ERA tracking.';
+  if (/office ally|billing|claim|encoding|coding|ocr|visual|intake|extract|7-step|flow|quick-note|ehr|agent|scribe/.test(q)) {
+    return 'The site shows a preview of that workflow, but I can’t confirm its current availability or live integrations. I can point you to the relevant section or connect you with Jasmel to verify it.';
   }
-  if (q.includes('ocr') || q.includes('visual') || q.includes('intake') || q.includes('extract')) {
-    return 'With AIMS Smart Intake & Visual OCR, patients complete a 33-question spoken or digital intake form in English, Spanish, or Haitian Kreyòl, while Visual OCR automatically extracts demographics, policy numbers, and clinical details from photographed insurance cards, photo IDs, referrals, and lab sheets directly into the EHR.';
+  if (/contact|email|phone|call|instagram|demo|walkthrough/.test(q)) {
+    return 'You can reach Jasmel at Jasmel@aimedicalscriber.com or (786) 643-2099, or message @aiscribers on Instagram. I can’t send a message or book a demo for you.';
   }
-  if (q.includes('7-step') || q.includes('flow') || q.includes('quick-note') || q.includes('ehr')) {
-    return 'AIMS connects every visit across 7 steps: (1) Multilingual Smart Intake, (2) Visual OCR & Pre-Visit Summary, (3) Lobby Check-In, (4) Longitudinal Pre-Consult & Safety Scan, (5) Ambient AI Medical Scribe, (6) Multi-Agent SOAP & ICD-10/CPT Encoding, and (7) One-Click E-Signature & Office Ally Claim Sync—plus a 60-second Express Quick-Note mode for returning patients.';
-  }
-  if (q.includes('agent') || q.includes('scribe')) {
-    return 'The Ambient AI Medical Scribe listens naturally during the exam alongside a mid-visit clinical copilot. Every encounter is verified by our Dual-Agent Builder + Reviewer protocol—or our 5-Agent Specialist Consensus Board for complex cases—auditing clinical accuracy, red-flag safety, and 15,716 ICD-10 & CPT coding rules before sign-off.';
-  }
-  return 'AIMS (aimedicalscriber.com) brings together an Ambient AI Medical Scribe, Unified Longitudinal EHR, 33-question Spoken & Digital Intake Forms, Visual OCR card & document extraction, Multi-Agent ICD-10/CPT medical encoding, and AI Medical Billing integrated with Office Ally. Ask about any workflow or book a live demo in the Contact Hub below!';
+  return 'I can help explain what the AIMS preview shows. If you need confirmation about availability or a clinic setup, email Jasmel@aimedicalscriber.com or call (786) 643-2099.';
 }
 
 async function startServer() {
@@ -167,16 +174,7 @@ async function startServer() {
       contactSubmissions.length = 200;
     }
 
-    const routedEmail =
-      record.department.includes('Support') ||
-      record.department.includes('Billing') ||
-      record.department.includes('Office Ally')
-        ? 'support@aimedicalscriber.com'
-        : record.department.includes('Migration') || record.department.includes('Onboarding')
-          ? 'onboarding@aimedicalscriber.com'
-          : record.department.includes('Multi-Clinic') || record.department.includes('Receptionist')
-            ? 'operations@aimedicalscriber.com'
-            : 'demos@aimedicalscriber.com';
+    const routedEmail = 'Jasmel@aimedicalscriber.com';
 
     res.json({
       ok: true,
@@ -233,6 +231,7 @@ async function startServer() {
         contents: sanitized,
         config: {
           systemInstruction: AIMS_SYSTEM_INSTRUCTION,
+          maxOutputTokens: 220,
           thinkingConfig: {
             thinkingLevel: ThinkingLevel.LOW,
           },
@@ -246,18 +245,11 @@ async function startServer() {
         mode: 'gemini',
       });
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      const statusMatch = /403|PERMISSION_DENIED|API_KEY_INVALID|400/.test(message)
-        ? 'Check your GEMINI_API_KEY in Settings > Secrets if live AI generation is unavailable.'
-        : /429|RESOURCE_EXHAUSTED/.test(message)
-          ? 'Gemini quota reached; answered using verified AIMS platform documentation.'
-          : undefined;
-
       const fallback = buildLocalFallbackReply(latestUserText);
       res.json({
         reply: fallback,
         suggestedNav: inferSuggestedNav(`${latestUserText} ${fallback}`),
-        notice: statusMatch,
+        notice: 'I’m having trouble generating a live answer right now. Please try again or contact Jasmel directly.',
         mode: 'fallback',
       });
     }

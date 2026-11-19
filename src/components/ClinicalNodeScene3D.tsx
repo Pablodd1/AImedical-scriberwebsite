@@ -34,7 +34,7 @@ const CAMERA_PRESETS: Record<NodeCameraPreset, PresetSpec> = {
     target: [0, 0.68, 0],
   },
   subnodes: {
-    label: 'Agent Ring',
+    label: 'Review ring',
     pos: [-4.5, 1.85, 2.1],
     target: [0, 0.85, 0],
   },
@@ -466,7 +466,7 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
     bezelMesh.castShadow = true;
     chassisGroup.add(bezelMesh);
 
-    // Part 5: Whisper-v3 Acoustic Wave Transducer Pool (onBeforeCompile PBR ripple membrane)
+    // Part 5: Illustrated Acoustic Wave Transducer Pool (onBeforeCompile PBR ripple membrane)
     const transducerGroup = new THREE.Group();
     transducerGroup.position.set(0, 0.56, 0);
     rootRig.add(transducerGroup);
@@ -588,7 +588,7 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
       pylonRefs.push(pNode);
     }
 
-    // Part 8: Gimbaled Dual-Agent Consensus Rings (TorusGeometry)
+    // Part 8: Gimbaled Consensus Rings (TorusGeometry)
     const consensusGroup = new THREE.Group();
     consensusGroup.position.set(0, 1.48, 0);
     rootRig.add(consensusGroup);
@@ -752,7 +752,7 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
         chassisMat.roughness = 0.28;
       }
 
-      curExploded = THREE.MathUtils.damp(curExploded, stateRef.current.exploded, 6.5, dt);
+      curExploded = THREE.MathUtils.damp(curExploded, stateRef.current.exploded, 4.5, dt);
 
       chassisGroup.position.y = 0.22 + curExploded * 0.18;
       transducerGroup.position.y = 0.56 + curExploded * 0.42;
@@ -801,7 +801,7 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
         const preset = CAMERA_PRESETS[stateRef.current.cameraPreset];
         _camGoal.set(...preset.pos);
         _targetGoal.set(...preset.target);
-        const alpha = 1 - Math.exp(-5.5 * dt);
+        const alpha = 1 - Math.exp(-3.5 * dt);
         camera.position.lerp(_camGoal, alpha);
         controls.target.lerp(_targetGoal, alpha);
         if (
@@ -862,10 +862,10 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
       {/* Top-Left Minimal Spec Header (Solid/RGBA surface, zero backdrop-filter over WebGL) */}
       <div className="pointer-events-none absolute top-4 left-4 z-10 rounded-lg border border-slate-700/60 bg-slate-900/92 px-3.5 py-2 text-slate-100">
         <div className="font-code-badge tracking-wider text-teal-400">
-          AIMS Multi-Agent Clinical Intelligence • Scribe • OCR • Coding • Office Ally
+          AIMS Clinical Intelligence • Scribe • OCR • Coding • Office Ally
         </div>
         <div className="font-caption text-slate-300">
-          Interactive 3D Acoustic Scribe Array &amp; 5-Agent Consensus Ring • Drag to Orbit
+          Interactive scribe illustration · Drag to rotate
         </div>
       </div>
 

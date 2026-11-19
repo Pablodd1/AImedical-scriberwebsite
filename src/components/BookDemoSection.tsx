@@ -10,9 +10,9 @@ interface BookDemoSectionProps {
 }
 
 const DIRECT_CONTACT_DESKS = [
-  { label: 'Demos & Sales', email: 'demos@aimedicalscriber.com' },
-  { label: 'EHR Onboarding', email: 'onboarding@aimedicalscriber.com' },
-  { label: 'Billing & Office Ally', email: 'support@aimedicalscriber.com' },
+  { label: 'Demos & Sales', email: 'Jasmel@aimedicalscriber.com' },
+  { label: 'EHR Onboarding', email: 'Jasmel@aimedicalscriber.com' },
+  { label: 'Billing & Office Ally', email: 'Jasmel@aimedicalscriber.com' },
 ];
 
 export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
@@ -101,17 +101,17 @@ export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
             </h2>
             <p className="font-body-lg text-text-secondary">
               See the complete 7-step patient flow, ambient AI Medical Scribe, Visual OCR
-              extraction, Multi-Agent medical encoding, and Office Ally billing integration
+              extraction, medical encoding, and Office Ally billing integration
               tailored to your specialty.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-2 font-caption">
               <a
-                href="tel:+13055550194"
+                href="tel:+17866432099"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-clinical-teal-subtle border border-clinical-teal/30 font-semibold text-clinical-teal hover:bg-clinical-teal hover:text-on-primary transition-colors whitespace-nowrap"
               >
                 <span className="material-symbols-outlined text-sm">call</span>
-                <span>(305) 555-0194</span>
+                <span>(786) 643-2099</span>
               </a>
               {DIRECT_CONTACT_DESKS.map((desk) => (
                 <button
@@ -159,7 +159,7 @@ export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
                     <span>
                       Confirmed! Reference{' '}
                       <strong className="font-code-clinical text-clinical-teal">{ticketId}</strong>{' '}
-                      routed to <code className="font-code-clinical">demos@aimedicalscriber.com</code>.
+                      routed to <code className="font-code-clinical">Jasmel@aimedicalscriber.com</code>.
                     </span>
                   </span>
                   <button

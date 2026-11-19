@@ -23,18 +23,18 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'demos',
     department: 'Live Product Demo',
     title: 'Clinical Demos & Practice Rollout',
-    email: 'demos@aimedicalscriber.com',
+    email: 'Jasmel@aimedicalscriber.com',
     hoursOrSla: 'Same-Day Scheduling · Mon–Sat',
     icon: 'calendar_month',
     summary:
-      '1-on-1 specialty walkthrough covering the AI Medical Scribe, Unified EHR, Smart Intake Form, Visual OCR, and Multi-Agent review.',
+      '1-on-1 specialty walkthrough covering the AI Medical Scribe, Unified EHR, Smart Intake Form, Visual OCR, and review.',
     highlights: ['Live Patientless Scribe Simulator', 'Instant Staff Training Sandbox'],
   },
   {
     id: 'onboarding',
     department: 'CSV Data Migration & Onboarding',
     title: 'EHR Migration & Custom Intake Setup',
-    email: 'onboarding@aimedicalscriber.com',
+    email: 'Jasmel@aimedicalscriber.com',
     hoursOrSla: '48h Turnaround · Dedicated Specialist',
     icon: 'upload_file',
     summary:
@@ -45,7 +45,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'support',
     department: 'Technical & Billing Support',
     title: 'AI Billing & Office Ally Support',
-    email: 'support@aimedicalscriber.com',
+    email: 'Jasmel@aimedicalscriber.com',
     hoursOrSla: '< 15 Min Priority Clinical Response',
     icon: 'support_agent',
     summary:
@@ -56,7 +56,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'hq',
     department: 'Multi-Clinic & AI Receptionist',
     title: 'Multi-Site Clinics & Virtual Reception',
-    email: 'operations@aimedicalscriber.com',
+    email: 'Jasmel@aimedicalscriber.com',
     hoursOrSla: 'Miami Medical Corridor · EST + 24/7 AI',
     icon: 'apartment',
     summary:
@@ -174,7 +174,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
       const fallbackRef = `AIMS-${Math.floor(100000 + Math.random() * 900000)}`;
       setReceipt({
         referenceId: fallbackRef,
-        routedEmail: 'demos@aimedicalscriber.com',
+        routedEmail: 'Jasmel@aimedicalscriber.com',
         submittedAt: new Date().toISOString(),
         sandboxProvisioned: provisionDemoUser,
       });
@@ -207,11 +207,11 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
           </div>
           <div className="flex flex-col items-start md:items-end gap-1">
             <a
-              href="tel:+13055550194"
+              href="tel:+17866432099"
               className="inline-flex items-center gap-1.5 font-code-clinical text-xs text-clinical-teal font-semibold hover:underline whitespace-nowrap"
             >
               <span className="material-symbols-outlined text-sm">call</span>
-              <span>Onboarding Desk: (305) 555-0194</span>
+              <span>Onboarding Desk: (786) 643-2099</span>
             </a>
             <div className="font-caption text-alert-success font-medium whitespace-nowrap">
               BAA Available · Response &lt; 2 Business Hours
@@ -451,7 +451,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
                         setPhone(e.target.value);
                         clearConfirmationOnEdit();
                       }}
-                      placeholder="(305) 555-0194"
+                      placeholder="(786) 643-2099"
                       className={`w-full h-10 px-3.5 rounded-lg bg-surface-panel border font-body-sm text-text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-clinical-teal ${
                         fieldsConfirmed && phone.trim()
                           ? 'pr-10 border-alert-success/55'
@@ -747,7 +747,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
                       Sandbox &amp; Patientless Scribe Simulator
                     </div>
                     <p className="font-body-sm text-text-secondary mt-0.5">
-                      Explore the AI Medical Scribe, Multi-Agent review, Visual OCR, and Express
+                      Explore the AI Medical Scribe, review, Visual OCR, and Express
                       Quick-Note right away with zero live patient data required.
                     </p>
                   </div>

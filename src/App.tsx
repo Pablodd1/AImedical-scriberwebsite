@@ -1,17 +1,15 @@
+import { siteReview } from './components/ReviewContact';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import { flushSync } from 'react-dom';
 import {
   DEFAULT_INK_PARAMS,
   inkBleedController,
-  InkShaderMode,
-  InkTuningParams,
   ThemeMode,
 } from './engine/inkBleedEngine';
 import { PlatformScreen } from './components/PlatformScreen';
 import { ScribeAnd3DScreen } from './components/ScribeAnd3DScreen';
 import { PatientFlowScreen } from './components/PatientFlowScreen';
 import { SecurityAndBillingScreen } from './components/SecurityAndBillingScreen';
-import { TuningPanel } from './components/TuningPanel';
 import { AimsChatbotWidget } from './components/AimsChatbotWidget';
 import { AimsBrandLogo } from './components/GlassCard';
 import {
@@ -22,36 +20,22 @@ import {
 
 export type AppTabId = 'platform' | 'ai-scribe' | '7-step-flow' | 'security-hipaa';
 
-export const TAB_SHADER_MAP: Record<AppTabId, InkShaderMode> = {
-  platform: 'sumi',
-  'ai-scribe': 'vortex',
-  '7-step-flow': 'watercolor',
-  'security-hipaa': 'burst',
-};
-
-const NAV_TABS: Array<{ id: AppTabId; label: string; mode: InkShaderMode }> = [
-  { id: 'platform', label: 'Overview', mode: 'sumi' },
-  { id: '7-step-flow', label: 'EHR & Portal', mode: 'watercolor' },
-  { id: 'ai-scribe', label: 'AI Scribe & Voice', mode: 'vortex' },
-  { id: 'security-hipaa', label: 'Billing & Security', mode: 'burst' },
+const NAV_TABS: Array<{ id: AppTabId; label: string }> = [
+  { id: 'platform', label: 'Overview' },
+  { id: '7-step-flow', label: 'Patient flow' },
+  { id: 'ai-scribe', label: 'AI Scribe' },
+  { id: 'security-hipaa', label: 'Billing' },
 ];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<AppTabId>('platform');
   const [theme, setTheme] = useState<ThemeMode>('light');
-  const [shaderMode, setShaderMode] = useState<InkShaderMode>('sumi');
-  const [tuningParams, setTuningParams] = useState<InkTuningParams>(() => ({
-    ...DEFAULT_INK_PARAMS,
-  }));
-  const [tuningOpen, setTuningOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
   const [activeLegalPolicy, setActiveLegalPolicy] = useState<LegalModalTab | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const headerToggleBtnRef = useRef<HTMLButtonElement | null>(null);
   const themeRef = useRef<ThemeMode>(theme);
-  const modeRef = useRef<InkShaderMode>(shaderMode);
-  const paramsRef = useRef<InkTuningParams>(tuningParams);
   const lastPairRef = useRef<{ from: ThemeMode; to: ThemeMode }>({
     from: 'light',
     to: 'dark',
@@ -63,14 +47,6 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  useEffect(() => {
-    modeRef.current = shaderMode;
-  }, [shaderMode]);
-
-  useEffect(() => {
-    paramsRef.current = tuningParams;
-  }, [tuningParams]);
-
   const showToast = useCallback((msg: string) => {
     setToastMessage(msg);
     window.clearTimeout(toastTimerRef.current);
@@ -81,9 +57,6 @@ export default function App() {
 
   const handleNavigateSection = useCallback((tab: AppTabId, sectionId?: string) => {
     setActiveTab(tab);
-    const mappedMode = TAB_SHADER_MAP[tab];
-    setShaderMode(mappedMode);
-    modeRef.current = mappedMode;
 
     if (sectionId) {
       window.setTimeout(() => {
@@ -98,6 +71,28 @@ export default function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, []);
+
+  const selectTab = (tab: AppTabId, event: React.MouseEvent<HTMLButtonElement>) => {
+    function showTab() {
+      flushSync(() => setActiveTab(tab));
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      showTab();
+      return;
+    }
+    const rect = event.currentTarget.getBoundingClientRect();
+    inkBleedController.trigger({
+      originX: event.detail ? event.clientX : rect.left + rect.width / 2,
+      originY: event.detail ? event.clientY : rect.top + rect.height / 2,
+      oldTheme: theme,
+      newTheme: theme,
+      getMode: () => 'sumi',
+      getParams: () => ({ ...DEFAULT_INK_PARAMS, duration: 850 }),
+      applyThemeToLiveDOM: showTab,
+      accentReveal: true,
+    });
+  };
 
   const handleOpenContactHub = useCallback(() => {
     handleNavigateSection('platform', 'section-contact');
@@ -121,8 +116,8 @@ export default function App() {
         originY,
         oldTheme: fromTheme,
         newTheme: toTheme,
-        getMode: () => modeRef.current,
-        getParams: () => paramsRef.current,
+        getMode: () => 'sumi',
+        getParams: () => DEFAULT_INK_PARAMS,
         applyThemeToLiveDOM: applyThemeSynchronously,
       });
     },
@@ -200,9 +195,7 @@ export default function App() {
       } else if (e.key === 'r' || e.key === 'R') {
         e.preventDefault();
         replayLastClick();
-      } else if (e.key === 'd' || e.key === 'D') {
-        e.preventDefault();
-        setTuningOpen((open) => !open);
+
       }
     };
 
@@ -217,16 +210,7 @@ export default function App() {
         data-theme={theme}
         className="relative min-h-screen w-full flex flex-col bg-surface text-text-primary overflow-x-clip"
       >
-        {/* Ambient Refractive Aurora Orbs Behind Glassmorphic Surfaces */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
-        >
-          <div className="aurora-orb-a absolute -top-28 -left-24 w-[520px] h-[520px] rounded-full" />
-          <div className="aurora-orb-b absolute top-[32%] -right-32 w-[480px] h-[480px] rounded-full" />
-          <div className="aurora-orb-c absolute -bottom-36 left-[28%] w-[560px] h-[560px] rounded-full" />
-        </div>
-
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[10000] focus:bg-surface-panel focus:p-3">Skip to content</a>
         {/* Frosted Crystal Glass Top Navigation Header */}
         <header className="sticky top-0 z-40 w-full glass-header">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-8">
@@ -250,7 +234,7 @@ export default function App() {
                   <button
                     key={tab.id}
                     type="button"
-                    onClick={() => handleNavigateSection(tab.id)}
+                    onClick={(event) => selectTab(tab.id, event)}
                     aria-current={isActive ? 'page' : undefined}
                     className={`relative py-1 font-body-md transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                       isActive
@@ -273,13 +257,13 @@ export default function App() {
 
             {/* Zone 3: Sign In + Theme Switch + Primary Demo CTA */}
             <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              <button
+              {!siteReview && (<button
                 type="button"
                 onClick={() => setSignInOpen(true)}
                 className="hidden sm:inline-flex items-center py-1 px-2 font-body-sm font-medium text-on-surface-variant hover:text-clinical-teal transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Sign In
-              </button>
+              </button>)}
 
               <button
                 ref={headerToggleBtnRef}
@@ -296,19 +280,6 @@ export default function App() {
                 </span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => setTuningOpen((v) => !v)}
-                title="Ink Transition Settings (Shortcut: D)"
-                aria-label="Ink Transition Settings"
-                className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-colors shrink-0 cursor-pointer ${
-                  tuningOpen
-                    ? 'bg-clinical-teal text-on-primary border-clinical-teal'
-                    : 'bg-surface-canvas hover:bg-surface-container border-border-subtle text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                <span className="material-symbols-outlined text-base">tune</span>
-              </button>
 
               <button
                 type="button"
@@ -328,7 +299,7 @@ export default function App() {
                   <button
                     key={tab.id}
                     type="button"
-                    onClick={() => handleNavigateSection(tab.id)}
+                    onClick={(event) => selectTab(tab.id, event)}
                     className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap cursor-pointer ${
                       activeTab === tab.id
                         ? 'bg-clinical-teal text-on-primary'
@@ -346,27 +317,25 @@ export default function App() {
                   Contact
                 </button>
               </div>
-              <button
+              {!siteReview && (<button
                 type="button"
                 onClick={() => setSignInOpen(true)}
                 className="px-2.5 py-1 rounded-lg text-xs font-semibold text-clinical-teal whitespace-nowrap shrink-0 cursor-pointer"
               >
                 Sign In
-              </button>
+              </button>)}
             </div>
           </div>
         </header>
 
         {/* Main Website Page Viewport with Dynamic Motion Transitions */}
-        <main className="relative z-10 w-full flex-1">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            >
+        <main id="main-content" tabIndex={-1} className="relative z-10 w-full flex-1">
+          {siteReview && (
+            <p className="border-b border-border-subtle px-4 py-3 text-center font-body-sm text-text-secondary">
+              Product preview · Use sample data only.
+            </p>
+          )}
+          <div key={activeTab}>
               {activeTab === 'platform' && (
                 <PlatformScreen
                   onNavigateSection={handleNavigateSection}
@@ -393,8 +362,7 @@ export default function App() {
                   onOpenLegalPolicy={(policy) => setActiveLegalPolicy(policy)}
                 />
               )}
-            </motion.div>
-          </AnimatePresence>
+          </div>
         </main>
 
         {/* Official Frosted Glass Website Footer */}
@@ -410,21 +378,16 @@ export default function App() {
                 </div>
                 <p className="font-body-sm text-text-secondary max-w-sm">
                   Artificial Intelligence Medical Scribe: unified longitudinal EHR, smart intake
-                  forms, visual OCR extraction, multi-agent medical encoding, and AI medical billing
+                  forms, visual OCR extraction, medical encoding, and AI medical billing
                   integrated with Office Ally.
                 </p>
                 <div className="font-caption text-alert-success font-medium">
-                  Live at aimedicalscriber.com · Built for HIPAA-conscious workflows · BAA Available
+                  {siteReview ? 'AIMS product preview' : 'Live at aimedicalscriber.com · Built for HIPAA-conscious workflows · BAA Available'}
                 </div>
                 <div className="font-code-clinical text-xs text-text-secondary pt-1 flex flex-wrap items-center gap-2">
-                  <a
-                    href="tel:+13055550194"
-                    className="text-clinical-teal hover:underline whitespace-nowrap"
-                  >
-                    (305) 555-0194
-                  </a>
-                  <span>·</span>
-                  <span>demos@aimedicalscriber.com</span>
+                  <a className="text-clinical-teal hover:underline" href="mailto:Jasmel@aimedicalscriber.com">Jasmel@aimedicalscriber.com</a>
+                  <a className="text-clinical-teal hover:underline" href="tel:+17866432099">(786) 643-2099</a>
+                  <a className="text-clinical-teal hover:underline" href="https://www.instagram.com/aiscribers/" target="_blank" rel="noreferrer">Instagram @aiscribers</a>
                 </div>
               </div>
 
@@ -483,7 +446,7 @@ export default function App() {
                       onClick={() => handleNavigateSection('ai-scribe', 'section-scribe')}
                       className="hover:text-text-primary transition-colors cursor-pointer"
                     >
-                      AI Medical Scribe &amp; Agents
+                      AI Medical Scribe &amp; Notes
                     </button>
                   </li>
                   <li>
@@ -505,13 +468,13 @@ export default function App() {
                     </button>
                   </li>
                   <li>
-                    <button
+                    {!siteReview && (<button
                       type="button"
                       onClick={() => setSignInOpen(true)}
                       className="hover:text-clinical-teal font-medium transition-colors cursor-pointer"
                     >
                       Provider &amp; Portal Sign-In
-                    </button>
+                    </button>)}
                   </li>
                 </ul>
               </div>
@@ -606,15 +569,7 @@ export default function App() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border-subtle text-text-muted font-caption">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-code-clinical text-text-secondary">
-                  https://aimedicalscriber.com
-                </span>
-                <span>·</span>
-                <span>Biscayne Medical Corridor, Miami FL</span>
-                <span>·</span>
-                <span>Shortcuts: [T] Theme · [R] Replay · [D] Shader</span>
-              </div>
+
               <span>© 2026 AIMS (Artificial Intelligence Medical Scribe). All rights reserved.</span>
             </div>
           </div>
@@ -624,7 +579,7 @@ export default function App() {
       {/* Global AI Concierge Chatbot Widget (Persists Across Entire Website) */}
       <AimsChatbotWidget
         onNavigateSection={handleNavigateSection}
-        tuningOpen={tuningOpen}
+        tuningOpen={false}
       />
 
       {/* Provider & Patient Portal Sign-In Modal */}
@@ -643,18 +598,6 @@ export default function App() {
         onRequestBaa={handleOpenContactHub}
       />
 
-      {/* Live Tuning Panel (Shortcut: D) */}
-      <TuningPanel
-        open={tuningOpen}
-        onClose={() => setTuningOpen(false)}
-        mode={shaderMode}
-        onSelectMode={(m) => setShaderMode(m)}
-        params={tuningParams}
-        onChangeParams={setTuningParams}
-        theme={theme}
-        onReplayLastClick={replayLastClick}
-        onToggleCenter={() => triggerToggleFromPoint()}
-      />
 
       {/* Interactive Toast Feedback */}
       {toastMessage && (

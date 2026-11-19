@@ -1,9 +1,9 @@
+import { ReviewContact, siteReview } from './ReviewContact';
 import React, { useMemo, useState } from 'react';
 import { ThemeMode } from '../engine/inkBleedEngine';
 import {
   AI_TOOLS_CATALOG,
   AiToolSpec,
-  FIVE_SPECIALIST_AGENTS,
 } from '../data/aimsSpecData';
 import { ClinicalNodeScene3D } from './ClinicalNodeScene3D';
 import { BookDemoSection } from './BookDemoSection';
@@ -17,7 +17,7 @@ interface ScribeAnd3DScreenProps {
 
 const TOOL_CATEGORIES: Array<'All' | AiToolSpec['category']> = [
   'All',
-  'Scribe & Agents',
+  'Scribe & Notes',
   'Voice & Intake',
   'Coding & Safety',
   'Hub & QA',
@@ -38,13 +38,10 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
   onNotify,
   onOpenFullContact,
 }) => {
-  const [selectedAgent, setSelectedAgent] = useState(FIVE_SPECIALIST_AGENTS[0].id);
   const [selectedCategory, setSelectedCategory] = useState<'All' | AiToolSpec['category']>('All');
   const [toolSearch, setToolSearch] = useState('');
   const [showAllTools, setShowAllTools] = useState(false);
 
-  const activeAgent =
-    FIVE_SPECIALIST_AGENTS.find((a) => a.id === selectedAgent) || FIVE_SPECIALIST_AGENTS[0];
 
   const filteredTools = useMemo(() => {
     const q = toolSearch.trim().toLowerCase();
@@ -73,20 +70,19 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
   return (
     <div className="flex flex-col w-full">
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 py-10 flex flex-col gap-12">
-        {/* AI Scribe, Multi-Agent Review & 3D Clinical Visualizer */}
+        {/* AI Scribe, Review & 3D Clinical Visualizer */}
         <section id="section-scribe" className="flex flex-col gap-8 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <div className="font-caption text-clinical-teal font-semibold">
-                AI Medical Scribe · Multi-Agent Verification · Medical Encoding
+                AI Medical Scribe · Verification · Medical Encoding
               </div>
               <h1 className="font-display-hero text-text-primary mt-1">
-                Ambient AI Scribe, Multi-Agent Review &amp; Coding.
+                See how a conversation becomes a draft note
               </h1>
               <p className="font-body-lg text-text-secondary max-w-3xl mt-2">
-                Focus completely on your patient while AIMS captures the conversation, answers
-                mid-visit clinical questions, verifies every SOAP note with specialist AI agents,
-                and encodes clean ICD-10 &amp; CPT billing codes ready for Office Ally.
+                Try the scribe with a sample conversation. Follow the draft SOAP note, review the suggested codes,
+                and see where the clinician would check and sign off.
               </p>
             </div>
 
@@ -100,161 +96,8 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
             </button>
           </div>
 
-          {/* Dual-Agent vs Five-Agent Comparison Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <GlassCard className="p-6 flex flex-col justify-between gap-4">
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-caption text-clinical-teal font-semibold">
-                    Daily Encounter Standard
-                  </span>
-                  <span className="font-caption text-alert-success font-semibold">
-                    Wake-Lock + Simulator
-                  </span>
-                </div>
-                <h2 className="font-headline-sm text-text-primary">
-                  Dual-Agent Clinical Review (Builder + Reviewer)
-                </h2>
-                <p className="font-body-sm text-text-secondary leading-relaxed">
-                  <strong>Agent 1 &ldquo;Builder&rdquo;</strong> synthesizes the complete SOAP note,
-                  ICD-10 diagnosis codes, CPT procedure codes, severity-graded red flags, missing
-                  exam details, and recommended follow-ups.{' '}
-                  <strong>Agent 2 &ldquo;Reviewer&rdquo;</strong> audits the draft against the
-                  encounter transcript and clinical coding rules—flagging omissions before sign-off.
-                </p>
-              </div>
-              <div className="pt-3 border-t border-border-subtle flex items-center justify-between font-caption text-text-muted">
-                <span>Saves directly to the longitudinal EHR chart</span>
-                <button
-                  type="button"
-                  onClick={scrollToDemo}
-                  className="text-clinical-teal font-semibold hover:underline cursor-pointer"
-                >
-                  Request Scribe Demo →
-                </button>
-              </div>
-            </GlassCard>
-
-            <GlassCard className="p-6 flex flex-col justify-between gap-4">
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-caption text-clinical-teal font-semibold">
-                    Complex &amp; Multi-System Visits
-                  </span>
-                  <span className="font-caption text-alert-success font-semibold">
-                    Parallel Multi-Agent AI
-                  </span>
-                </div>
-                <h2 className="font-headline-sm text-text-primary">
-                  Five-Agent Specialist Consensus Board
-                </h2>
-                <p className="font-body-sm text-text-secondary leading-relaxed">
-                  For multi-system or high-complexity visits, five specialist AI agents evaluate the
-                  live encounter simultaneously: Clinical Assessment, AI Medical Encoding, Red-Flag
-                  Safety, AI Medical Billing &amp; Office Ally Readiness, and our{' '}
-                  <span className="font-semibold text-text-primary">15,716-rule CPT &amp; ICD-10</span>{' '}
-                  coding knowledge base.
-                </p>
-              </div>
-              <div className="pt-3 border-t border-border-subtle flex items-center justify-between font-caption text-text-muted">
-                <span>Real-time clinical &amp; coding consensus</span>
-                <button
-                  type="button"
-                  onClick={scrollToDemo}
-                  className="text-clinical-teal font-semibold hover:underline cursor-pointer"
-                >
-                  See 5-Agent Walkthrough →
-                </button>
-              </div>
-            </GlassCard>
-          </div>
-
-          {/* Interactive 3D Acoustic Scribe Array & Multi-Agent Visualizer */}
           <ClinicalNodeScene3D theme={theme} />
 
-          {/* Interactive 5-Agent Consensus Board Explorer */}
-          <GlassCard interactive={false} className="p-6 sm:p-8 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span className="font-caption text-clinical-teal font-semibold">
-                  Multi-Agent Clinical Intelligence
-                </span>
-                <h2 className="font-headline-lg text-text-primary mt-1">
-                  Inspect the 5-Agent Consensus Board (Alpha – Epsilon)
-                </h2>
-              </div>
-              <span className="font-caption text-text-secondary">
-                Select any specialist agent to inspect its live clinical output
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-5 flex flex-col gap-2">
-                {FIVE_SPECIALIST_AGENTS.map((agent) => {
-                  const isSelected = agent.id === selectedAgent;
-                  return (
-                    <button
-                      key={agent.id}
-                      type="button"
-                      onClick={() => setSelectedAgent(agent.id)}
-                      className={`text-left p-4 rounded-xl border transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-clinical-teal-subtle border-clinical-teal/50 shadow-sm'
-                          : 'bg-surface-canvas border-border-subtle hover:bg-surface-container-low'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-code-badge text-clinical-teal font-bold">
-                          {agent.code}
-                        </span>
-                        <span className="font-caption text-text-muted">{agent.latency}</span>
-                      </div>
-                      <div className="font-section-title text-text-primary mt-1">{agent.name}</div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="lg:col-span-7 p-6 rounded-xl bg-surface-canvas border border-border-subtle flex flex-col justify-between gap-6">
-                <div className="space-y-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-border-subtle">
-                    <div>
-                      <span className="font-code-badge text-clinical-teal">{activeAgent.code}</span>
-                      <h3 className="font-headline-md text-text-primary mt-0.5">
-                        {activeAgent.name}
-                      </h3>
-                    </div>
-                    <span className="font-caption text-alert-success font-semibold">
-                      Consensus Active
-                    </span>
-                  </div>
-
-                  <div className="p-4 rounded-lg bg-surface-panel border border-border-subtle">
-                    <div className="font-caption text-text-muted mb-1">Live Specialist Output</div>
-                    <div className="font-code-clinical text-base text-text-primary font-semibold">
-                      {activeAgent.verdict}
-                    </div>
-                  </div>
-
-                  <p className="font-body-lg text-text-secondary">{activeAgent.detail}</p>
-                </div>
-
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border-subtle">
-                  <span className="font-caption text-text-muted">
-                    Grounded on encounter transcript, patient history &amp; 15,716 coding rules
-                  </span>
-                  <button
-                    type="button"
-                    onClick={scrollToDemo}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-clinical-teal hover:bg-primary-container text-on-primary px-4 py-2 font-body-sm font-medium transition-colors cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-sm">calendar_month</span>
-                    <span>Test With Your Specialty</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </GlassCard>
         </section>
 
         {/* Smart Intake Form, Visual OCR Extraction & Hands-Free Voice Control */}
@@ -461,11 +304,11 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
         </section>
       </div>
 
-      <BookDemoSection
+      {siteReview ? <ReviewContact id="book-demo" /> : <BookDemoSection
         onNotify={onNotify}
         onOpenFullContact={onOpenFullContact}
-        contextLabel="AI Medical Scribe · Multi-Agents · Visual OCR · Medical Encoding"
-      />
+        contextLabel="AI Medical Scribe · · Visual OCR · Medical Encoding"
+      />}
     </div>
   );
 };

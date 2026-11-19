@@ -28,17 +28,17 @@ export const SYSTEM_SUBNODES: SubnodeService[] = [
     securityNote: 'Encrypted Intake Capture',
   },
   {
-    node: 'Multi-Agent Clinical Review',
+    node: 'Clinical Review',
     description:
-      'Dual-Agent Builder + Reviewer verification and a 5-Agent Specialist Consensus Board auditing clinical accuracy, red-flag safety, and medical necessity.',
-    port: '2-Agent & 5-Agent AI',
+      'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
+    port: 'Visit review',
     securityNote: 'Transcript-Grounded Audit',
   },
   {
     node: 'AI Medical Coding & Encoding',
     description:
       'Automatically extracts clinical entities and maps exam findings to specificity-verified ICD-10 diagnosis codes, CPT procedure codes, and billing modifiers.',
-    port: '15,716 Coding Rules',
+    port: 'Coding Rules',
     securityNote: 'Pre-Claim Accuracy Check',
   },
   {
@@ -88,9 +88,9 @@ export const PLATFORM_ROLES: PlatformRole[] = [
     role: 'Doctor & Provider',
     badge: 'AI Scribe · EHR',
     icon: 'stethoscope',
-    summary: 'Hands-free ambient scribing, multi-agent clinical review, medical encoding, and one-click sign-off.',
+    summary: 'Hands-free ambient scribing, clinical review, medical encoding, and one-click sign-off.',
     capabilities: [
-      'Ambient AI Medical Scribe, Dual-Agent SOAP verification, and 5-Agent Specialist Consensus',
+      'Ambient AI Medical Scribe, review of the draft note and suggested codes',
       'Longitudinal patient chart, biomarker trends, visual lab review, and range-of-motion tracking',
       'Automated ICD-10 / CPT medical encoding, red-flag safety checks, and one-click e-signature',
     ],
@@ -176,7 +176,7 @@ export const CORE_EHR_MODULES: EhrModuleSpec[] = [
     title: 'Smart Scheduling & Reminders',
     icon: 'calendar_month',
     routes: ['Clinic Calendar'],
-    summary: 'Intuitive month and week clinical calendar with status pipelines and automated patient reminders.',
+    summary: 'Intuitive month and week clinical calendar with appointment statuses and automated patient reminders.',
     details: [
       'Track every visit from Scheduled to Checked-In, In-Exam, and Signed without manual status chasing.',
       'Dispatches 24-hour and 2-hour appointment reminders with two-way patient confirmation updates.',
@@ -228,12 +228,12 @@ export const CORE_EHR_MODULES: EhrModuleSpec[] = [
     title: 'AI Medical Coding & Encoding',
     icon: 'fact_check',
     routes: ['Medical Coding'],
-    summary: 'Automated ICD-10 diagnosis and CPT procedure encoding backed by 15,716 clinical coding rules.',
+    summary: 'Automated ICD-10 diagnosis and CPT procedure encoding backed by clinical coding rules.',
     details: [
       'Extracts billable diagnoses, procedures, and required modifiers (-25, -59) directly from clinical documentation.',
       'Includes built-in range-of-motion calculators, custom clinic code favorites, and medical necessity validation.',
     ],
-    apis: ['ICD-10 & CPT Encoder', '15,716 Coding Rules', 'Modifier Validation', 'ROM Calculator'],
+    apis: ['ICD-10 & CPT Encoder', 'Coding Rules', 'Modifier Validation', 'ROM Calculator'],
   },
   {
     id: 'labs',
@@ -282,7 +282,7 @@ export const CORE_EHR_MODULES: EhrModuleSpec[] = [
     routes: ['Clinic Settings'],
     summary: 'Per-specialty intake builders, custom note templates, role permissions, and staff training sandboxes.',
     details: [
-      'Tailor intake questions, specialty exam templates, clinic branding, and multi-agent coding rules.',
+      'Tailor intake questions, specialty exam templates, clinic branding, and coding rules.',
       'Spin up safe staff training accounts and patientless scribe simulations so teams onboard with zero friction.',
     ],
     apis: ['Custom Intake Builder', 'Specialty Templates', 'Role Permissions', 'Training Sandbox'],
@@ -293,7 +293,7 @@ export interface AiToolSpec {
   num: string;
   name: string;
   route: string;
-  category: 'Scribe & Agents' | 'Voice & Intake' | 'Coding & Safety' | 'Hub & QA';
+  category: 'Scribe & Notes' | 'Voice & Intake' | 'Coding & Safety' | 'Hub & QA';
   summary: string;
   detail: string;
   api: string;
@@ -304,7 +304,7 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
     num: '01',
     name: 'Ambient AI Medical Scribe',
     route: '/scribe/',
-    category: 'Scribe & Agents',
+    category: 'Scribe & Notes',
     summary: 'Side-by-side live encounter transcription and mid-visit AI clinical assistant.',
     detail:
       'Listens naturally to the consultation and drafts structured SOAP notes, ICD-10 diagnoses, CPT codes, red-flag alerts, and follow-up plans—complete with screen wake-lock and a patientless simulator.',
@@ -312,23 +312,23 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
   },
   {
     num: '02',
-    name: 'Dual-Agent Clinical Review',
-    route: 'Builder + Reviewer',
-    category: 'Scribe & Agents',
-    summary: 'Agent 1 drafts the full clinical note; Agent 2 audits coding and medical accuracy.',
+    name: 'Clinical Review',
+    route: 'Draft and review',
+    category: 'Scribe & Notes',
+    summary: 'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
     detail:
       'Cross-examines the generated SOAP note against the conversation transcript and clinical coding rules to catch missing exam details, unsupported modifiers, or safety gaps before sign-off.',
-    api: 'Two-Agent Clinical Verification',
+    api: 'Clinical Verification',
   },
   {
     num: '03',
-    name: 'Five-Agent Consensus Board',
+    name: 'clinical review',
     route: '/monitor/',
-    category: 'Scribe & Agents',
-    summary: 'Five specialist AI agents evaluating complex multi-system encounters in parallel.',
+    category: 'Scribe & Notes',
+    summary: 'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
     detail:
-      'Coordinates Clinical Assessment, AI Medical Encoding, Red-Flag Safety, AI Medical Billing Compliance, and 15,716 CPT Knowledge Rules simultaneously during live consultations.',
-    api: 'Parallel 5-Agent Consensus',
+      'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
+    api: 'Clinical review',
   },
   {
     num: '04',
@@ -354,7 +354,7 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
     num: '06',
     name: 'Longitudinal Pre-Consult Scanner',
     route: '/pre-consult/',
-    category: 'Scribe & Agents',
+    category: 'Scribe & Notes',
     summary: 'Synthesizes prior SOAP notes, lab trajectories, and contraindications before the exam.',
     detail:
       'Reviews historical visits, active diagnoses, and prior treatment outcomes so clinicians walk into every follow-up visit completely prepared.',
@@ -362,12 +362,12 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
   },
   {
     num: '07',
-    name: '60-Second Express Quick-Note',
+    name: 'Follow-up Quick Note',
     route: '/quick-note/',
-    category: 'Scribe & Agents',
+    category: 'Scribe & Notes',
     summary: 'Rapid follow-up charting path that bypasses new-patient intake steps.',
     detail:
-      'Select an existing patient, dictate or capture brief follow-up findings, and generate a compliant, encoded SOAP note in under a minute.',
+      'Select an existing patient, dictate or capture brief follow-up findings, and generate a compliant, encoded SOAP note for clinician review.',
     api: 'Express Follow-Up Workflow',
   },
   {
@@ -482,53 +482,7 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
   },
 ];
 
-export const FIVE_SPECIALIST_AGENTS = [
-  {
-    id: 'alpha',
-    code: 'AGENT ALPHA',
-    name: 'Clinical Assessment',
-    latency: 'Real-Time',
-    verdict: 'Right C6 Radiculopathy · Cervical Traction + Care Plan',
-    detail:
-      'Synthesizes presenting symptoms, physical exam maneuvers, differential considerations, and structured SOAP care plans during the live encounter.',
-  },
-  {
-    id: 'beta',
-    code: 'AGENT BETA',
-    name: 'AI Medical Encoding',
-    latency: 'Real-Time',
-    verdict: 'ICD-10: M54.12, M99.01 · CPT: 98940-25, 97012',
-    detail:
-      'Extracts specificity-verified ICD-10 diagnosis codes, CPT procedure codes, and required billing modifiers (-25, -59, -AT) directly from exam findings.',
-  },
-  {
-    id: 'gamma',
-    code: 'AGENT GAMMA',
-    name: 'Clinical Safety Review',
-    latency: 'Real-Time',
-    verdict: 'SAFE TO TREAT · 0 Vascular / Neurological Red Flags',
-    detail:
-      'Continuously screens symptoms, vitals, and patient history for red flags, medication interactions, and clinical contraindications.',
-  },
-  {
-    id: 'delta',
-    code: 'AGENT DELTA',
-    name: 'AI Medical Billing & Office Ally',
-    latency: 'Real-Time',
-    verdict: 'Claim Scrubbed · Ready for Office Ally Submission',
-    detail:
-      'Audits diagnosis-to-CPT pointers, objective measurements, and medical necessity so clean claims submit seamlessly to Office Ally.',
-  },
-  {
-    id: 'epsilon',
-    code: 'AGENT EPSILON',
-    name: 'Clinical Coding Knowledge Base',
-    latency: 'Real-Time',
-    verdict: 'Matched 15,716 Coding Rules + Longitudinal Chart History',
-    detail:
-      'Cross-references 15,716 CPT and ICD-10 coding guidelines, clinic protocols, prior patient visits, and extracted OCR records for grounded accuracy.',
-  },
-];
+
 
 export interface AutomationNodeSpec {
   num: string;
@@ -552,7 +506,7 @@ export const AUTOMATION_SYSTEMS: AutomationNodeSpec[] = [
   {
     num: '02',
     title: 'Visual OCR & Intake Extraction',
-    routeOrRuntime: 'Visual AI Pipeline',
+    routeOrRuntime: 'Document review',
     icon: 'document_scanner',
     summary: 'Zero-typing extraction from insurance cards, photo IDs, lab sheets, and paper forms.',
     detail:
@@ -606,7 +560,7 @@ export const LIVE_INTEGRATIONS: IntegrationRow[] = [
     name: 'AIMS AI Medical Coding Engine',
     category: 'ICD-10 & CPT Encoding',
     purpose:
-      'Automated clinical entity extraction and specificity-verified ICD-10, CPT, and modifier encoding across 15,716 medical coding rules.',
+      'Automated clinical entity extraction and specificity-verified ICD-10, CPT, and modifier encoding across medical coding rules.',
     status: 'Active',
   },
   {
@@ -617,10 +571,10 @@ export const LIVE_INTEGRATIONS: IntegrationRow[] = [
     status: 'Active',
   },
   {
-    name: 'AIMS Multi-Agent Scribe Suite',
+    name: 'AIMS Scribe Suite',
     category: 'Clinical Documentation AI',
     purpose:
-      'Ambient encounter listening, Dual-Agent Builder + Reviewer verification, and 5-Agent Specialist Consensus for accurate SOAP notes.',
+      'Ambient encounter listening, Draft and review verification, and chart review for accurate SOAP notes.',
     status: 'Active',
   },
   {
@@ -647,9 +601,9 @@ export interface FaqItem {
 
 export const WEBSITE_FAQS: FaqItem[] = [
   {
-    tag: 'AI Scribe & Multi-Agents',
+    tag: 'AI Scribe',
     q: 'How does AIMS ensure clinical notes and medical codes are accurate?',
-    a: 'Every encounter in the AI Medical Scribe passes through Dual-Agent verification: Agent 1 ("Builder") drafts the structured SOAP note, ICD-10 diagnoses, and CPT codes, while Agent 2 ("Reviewer") audits the draft against the conversation transcript and 15,716 coding rules. For complex visits, our 5-Agent Consensus Board evaluates clinical assessment, medical encoding, safety red flags, and billing compliance in parallel.',
+    a: 'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
   },
   {
     tag: 'AI Medical Billing & Office Ally',
@@ -664,7 +618,7 @@ export const WEBSITE_FAQS: FaqItem[] = [
   {
     tag: '7-Step Flow & Returning Patients',
     q: 'Do returning follow-up patients need to repeat the full 7-step intake workflow?',
-    a: 'No. New patients move smoothly through all 7 stages (Intake → Summary → Check-In → Pre-Consult → Scribe Consultation → Multi-Agent Review → Sign & Bill), while returning patients use the 60-Second Express Quick-Note workflow—skipping Steps 1–4 to complete and sign follow-up charting in under a minute.',
+    a: 'No. New patients move smoothly through all 7 stages (Intake → Summary → Check-In → Pre-Consult → Scribe Consultation → Review → Sign & Bill), while returning patients use the Follow-up Quick Note workflow—skipping Steps 1–4 to complete and sign follow-up charting for clinician review.',
   },
   {
     tag: 'Labs, Visual Scans & Portal',

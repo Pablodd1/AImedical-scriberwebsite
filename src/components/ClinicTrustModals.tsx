@@ -109,7 +109,7 @@ export const SignInModal: React.FC<SignInModalProps> = ({
 
               <p className="font-body-sm text-text-secondary">
                 {portalType === 'provider'
-                  ? 'Sign in to your clinic workspace for Ambient AI Medical Scribe, Unified EHR charts, Multi-Agent coding, and Office Ally billing.'
+                  ? 'Sign in to your clinic workspace for Ambient AI Medical Scribe, Unified EHR charts, coding, and Office Ally billing.'
                   : 'Access your upcoming appointments, mobile intake & insurance upload, telehealth visit link, and care summaries.'}
               </p>
 
@@ -348,8 +348,7 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
                     Clinical Decision Support &amp; Platform Terms
                   </h3>
                   <p>
-                    AIMS provides ambient clinical documentation, visual OCR extraction, multi-agent
-                    SOAP review, and ICD-10 / CPT medical encoding suggestions to assist licensed
+                    AIMS provides ambient clinical documentation, visual OCR extraction, SOAP review, and ICD-10 / CPT medical encoding suggestions to assist licensed
                     healthcare professionals.
                   </p>
                   <p>
@@ -363,7 +362,7 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
 
             <div className="px-6 py-4 border-t border-border-subtle bg-surface-canvas flex flex-wrap items-center justify-between gap-3 shrink-0">
               <span className="font-caption text-text-muted">
-                Questions for compliance? Email support@aimedicalscriber.com
+                Questions for compliance? Email Jasmel@aimedicalscriber.com
               </span>
               <button
                 type="button"
