@@ -23,7 +23,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'demos',
     department: 'Live Product Demo',
     title: 'Clinical Demos & Practice Rollout',
-    email: 'Jasmel@aimedicalscriber.com',
+    email: 'jasmelacosta@gmail.com',
     hoursOrSla: 'Same-Day Scheduling · Mon–Sat',
     icon: 'calendar_month',
     summary:
@@ -34,7 +34,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'onboarding',
     department: 'CSV Data Migration & Onboarding',
     title: 'EHR Migration & Custom Intake Setup',
-    email: 'Jasmel@aimedicalscriber.com',
+    email: 'jasmelacosta@gmail.com',
     hoursOrSla: '48h Turnaround · Dedicated Specialist',
     icon: 'upload_file',
     summary:
@@ -45,7 +45,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'support',
     department: 'Technical & Billing Support',
     title: 'AI Billing & Office Ally Support',
-    email: 'Jasmel@aimedicalscriber.com',
+    email: 'jasmelacosta@gmail.com',
     hoursOrSla: '< 15 Min Priority Clinical Response',
     icon: 'support_agent',
     summary:
@@ -56,7 +56,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     id: 'hq',
     department: 'Multi-Clinic & AI Receptionist',
     title: 'Multi-Site Clinics & Virtual Reception',
-    email: 'Jasmel@aimedicalscriber.com',
+    email: 'jasmelacosta@gmail.com',
     hoursOrSla: 'Miami Medical Corridor · EST + 24/7 AI',
     icon: 'apartment',
     summary:
@@ -174,7 +174,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
       const fallbackRef = `AIMS-${Math.floor(100000 + Math.random() * 900000)}`;
       setReceipt({
         referenceId: fallbackRef,
-        routedEmail: 'Jasmel@aimedicalscriber.com',
+        routedEmail: 'jasmelacosta@gmail.com',
         submittedAt: new Date().toISOString(),
         sandboxProvisioned: provisionDemoUser,
       });

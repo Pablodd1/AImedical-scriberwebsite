@@ -10,9 +10,9 @@ interface BookDemoSectionProps {
 }
 
 const DIRECT_CONTACT_DESKS = [
-  { label: 'Demos & Sales', email: 'Jasmel@aimedicalscriber.com' },
-  { label: 'EHR Onboarding', email: 'Jasmel@aimedicalscriber.com' },
-  { label: 'Billing & Office Ally', email: 'Jasmel@aimedicalscriber.com' },
+  { label: 'Demos & Sales', email: 'jasmelacosta@gmail.com' },
+  { label: 'EHR Onboarding', email: 'jasmelacosta@gmail.com' },
+  { label: 'Billing & Office Ally', email: 'jasmelacosta@gmail.com' },
 ];
 
 export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
@@ -159,7 +159,7 @@ export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
                     <span>
                       Confirmed! Reference{' '}
                       <strong className="font-code-clinical text-clinical-teal">{ticketId}</strong>{' '}
-                      routed to <code className="font-code-clinical">Jasmel@aimedicalscriber.com</code>.
+                      routed to <code className="font-code-clinical">jasmelacosta@gmail.com</code>.
                     </span>
                   </span>
                   <button

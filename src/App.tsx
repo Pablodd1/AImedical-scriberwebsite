@@ -385,7 +385,7 @@ export default function App() {
                   {siteReview ? 'AIMS product preview' : 'Live at aimedicalscriber.com · Built for HIPAA-conscious workflows · BAA Available'}
                 </div>
                 <div className="font-code-clinical text-xs text-text-secondary pt-1 flex flex-wrap items-center gap-2">
-                  <span>Jasmel@aimedicalscriber.com · Email forwarding paused. Please call or use the contact form.</span>
+                  <a href="mailto:jasmelacosta@gmail.com" className="text-clinical-teal hover:underline">jasmelacosta@gmail.com</a>
                   <a className="text-clinical-teal hover:underline" href="tel:+17866432099">(786) 643-2099</a>
                   <a className="text-clinical-teal hover:underline" href="https://www.instagram.com/aiscribers/" target="_blank" rel="noreferrer">Instagram @aiscribers</a>
                 </div>

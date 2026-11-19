@@ -48,7 +48,7 @@ ACCURACY
 - Never request or invite patient names, dates of birth, records, insurance details, or other protected health information. Ask visitors to use sample data and keep patient information out of chat.
 
 CONTACT
-- Email: Jasmel@aimedicalscriber.com
+- Email: jasmelacosta@gmail.com
 - Phone: (786) 643-2099
 - Instagram: @aiscribers (https://www.instagram.com/aiscribers/)
 - Be clear that email and Instagram open external communication channels; do not claim an appointment or message has been sent.
@@ -106,9 +106,9 @@ function buildLocalFallbackReply(userQuestion: string): string {
     return 'The site shows a preview of that workflow, but I can’t confirm its current availability or live integrations. I can point you to the relevant section or connect you with Jasmel to verify it.';
   }
   if (/contact|email|phone|call|instagram|demo|walkthrough/.test(q)) {
-    return 'You can reach Jasmel at Jasmel@aimedicalscriber.com or (786) 643-2099, or message @aiscribers on Instagram. I can’t send a message or book a demo for you.';
+    return 'You can reach Jasmel at jasmelacosta@gmail.com or (786) 643-2099, or message @aiscribers on Instagram. I can’t send a message or book a demo for you.';
   }
-  return 'I can help explain what the AIMS preview shows. If you need confirmation about availability or a clinic setup, email Jasmel@aimedicalscriber.com or call (786) 643-2099.';
+  return 'I can help explain what the AIMS preview shows. If you need confirmation about availability or a clinic setup, email jasmelacosta@gmail.com or call (786) 643-2099.';
 }
 
 async function startServer() {
@@ -174,7 +174,7 @@ async function startServer() {
       contactSubmissions.length = 200;
     }
 
-    const routedEmail = 'Jasmel@aimedicalscriber.com';
+    const routedEmail = 'jasmelacosta@gmail.com';
 
     res.json({
       ok: true,
