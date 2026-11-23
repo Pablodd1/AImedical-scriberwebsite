@@ -2,10 +2,10 @@ import topics from './concierge.json';
 
 export function previewAnswer(text: string) {
   const words = text.toLowerCase();
-  const asksPrice = /\b(price|pricing|cost|quote|plans?)\b/.test(words);
+  const asksPrice = /\b(price|pricing|costs?|quote|plans?|how much)\b/.test(words);
   const asksProduct = /what (does|is|can)|features|capable|offer/.test(words);
   if (asksPrice && asksProduct) {
-    return {...topics[0], reply: topics[0].reply + ' ' + topics.find(t => t.topic === 'pricing')!.reply};
+    return {...topics[0], reply: topics[0].reply.replace(' Which part would you like to explore?', '') + ' ' + topics.find(t => t.topic === 'pricing')!.reply};
   }
   const matches = topics.map(topic => ({
     topic,

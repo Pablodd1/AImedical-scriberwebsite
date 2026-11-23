@@ -29,7 +29,7 @@ const SPECIALTY_PROFILES: SpecialtyProfile[] = [
       'Pain body-mapping, functional disability scores, mechanism of injury, and visual insurance/auto-medpay card OCR.',
     scribeAndSoap:
       'Example note with orthopedic exam findings and changes in range of motion between visits.',
-    codingExample: 'M54.12 · M99.01 · 98940-25 · 97012 · 97110',
+    codingExample: 'M54.12 · M99.01 · 98940 · 97012 · 97110',
     billingImpact:
       'Example billing review for modifier 25 and timed therapy units before claim submission.',
   },
@@ -149,7 +149,7 @@ const BEFORE_VS_WITH_AIMS = [
   },
   {
     stage: 'Exam Room Documentation',
-    before: 'Typing during visits or 2+ hours of after-hours pajama-time charting',
+    before: 'Typing during visits or Additional documentation after clinic hours',
     after: 'Hands-free Ambient AI Medical Scribe + <60s Express Follow-Up Quick-Notes',
   },
   {
@@ -204,7 +204,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
               <span className="font-caption text-clinical-teal font-semibold">
-                Live Clinical Interface Preview
+                Sample clinical workflow
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
                 Ambient AI Medical Scribe, Review &amp; Medical Encoding
@@ -419,7 +419,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                     </div>
 
                     <div className="pt-2 flex flex-wrap gap-1.5">
-                      {['ICD-10: M54.12', 'ICD-10: M99.01', 'CPT: 98940-25', 'CPT: 97012'].map(
+                      {['ICD-10: M54.12', 'ICD-10: M99.01', 'CPT: 98940', 'CPT: 97012'].map(
                         (code) => (
                           <button
                             key={code}
@@ -448,7 +448,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                       </span>
                       <span className="inline-flex items-center text-alert-success font-code-badge gap-1">
                         <span className="material-symbols-outlined text-xs">check_circle</span>
-                        <span>Clean Claim</span>
+                        <span>Sample claim draft</span>
                       </span>
                     </div>
                     <p className="font-body-sm text-text-secondary leading-snug relative z-10">
@@ -517,7 +517,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                 Unified Clinical Capabilities
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
-                Scribe, EHR, Intake, Visual OCR, &amp; Billing
+                Scribe, EHR, Intake, Visual OCR &amp; Billing
               </h2>
             </div>
             <button
@@ -669,7 +669,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
             </div>
 
             <div className="pt-2 border-t border-border-subtle flex items-center justify-between font-caption text-text-muted">
-              <span>Saves 2+ hours of after-hours charting &amp; manual coding daily</span>
+              <span>Bring visit documentation and coding review into one workflow</span>
               <button
                 type="button"
                 onClick={() => onNavigateSection('security-hipaa', 'section-payments')}

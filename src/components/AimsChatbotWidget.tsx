@@ -48,10 +48,11 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
     const controller=new AbortController();
     request.current=controller;
     let answer=previewAnswer(question);
+    const asksProductAndPrice = /what (does|is|can)|features|capable|offer/i.test(question) && /price|pricing|cost|quote|how much/i.test(question);
     const timer=window.setTimeout(()=>controller.abort('timeout'),8000);
     try {
       const response=await fetch('https://aiscribers.com/api/concierge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({turns:history.slice(-5).map(t=>t.text)}),signal:controller.signal});
-      if(response.ok){const data=await response.json();answer=data.topic==='contact' && /what (does|is|can)|features|pricing|cost/i.test(question) ? answer : topics.find(t=>t.topic===data.topic)??answer;}
+      if(response.ok){const data=await response.json();if(!asksProductAndPrice)answer=data.topic==='contact' && /what (does|is|can)|features|pricing|cost/i.test(question) ? answer : topics.find(t=>t.topic===data.topic)??answer;}
     } catch { /* The same published answers are available offline. */ }
     finally {clearTimeout(timer);request.current=null;setBusy(false);}
     if(controller.signal.aborted && controller.signal.reason!=='timeout')return;
