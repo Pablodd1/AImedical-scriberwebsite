@@ -4,15 +4,6 @@ import topics from '../data/concierge.json';
 import { previewAnswer } from '../data/previewAnswers';
 import { contactPhone } from './ReviewContact';
 
-interface Recognition {
-  lang: string;
-  onresult: ((event: {results: ArrayLike<ArrayLike<{transcript: string}>>}) => void) | null;
-  onerror: (() => void) | null;
-  onend: (() => void) | null;
-  start(): void;
-  abort(): void;
-}
-type SpeechBrowser = Window & {SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition};
 type Turn = {role: 'visitor' | 'concierge'; text: string};
 const welcome: Turn = {role:'concierge',text:'Welcome to AIMS. Ask about a visit, explore the scribe, or reach Jasmel. Please leave patient information out of this chat.'};
 
@@ -23,20 +14,35 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
   const [busy,setBusy] = useState(false);
   const [listening,setListening] = useState(false);
   const [notice,setNotice] = useState('');
-  const speech = useRef<Recognition | null>(null);
+  const recorder = useRef<MediaRecorder | null>(null);
+  const stream = useRef<MediaStream | null>(null);
+  const voiceTimer = useRef<number>(0);
+  const voiceSession = useRef(0);
   const request = useRef<AbortController | null>(null);
   const log = useRef<HTMLDivElement>(null);
   const field = useRef<HTMLInputElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
-  const browser = window as SpeechBrowser;
-  const RecognitionAPI = browser.SpeechRecognition ?? browser.webkitSpeechRecognition;
+  const voiceSupported = typeof MediaRecorder !== 'undefined' && !!navigator.mediaDevices?.getUserMedia;
   useEffect(()=>{if(open)field.current?.focus();},[open]);
   useEffect(()=>{if(log.current)log.current.scrollTop=log.current.scrollHeight;},[turns,busy]);
-  useEffect(()=>()=>{request.current?.abort();speech.current?.abort();window.speechSynthesis?.cancel();},[]);
+  useEffect(()=>()=>{request.current?.abort();stopVoice();window.speechSynthesis?.cancel();},[]);
+  function stopVoice() {
+    voiceSession.current++;
+    window.clearTimeout(voiceTimer.current);
+    if (recorder.current) {
+      recorder.current.onstop = null;
+      if (recorder.current.state !== 'inactive') recorder.current.stop();
+    }
+    stream.current?.getTracks().forEach(track => track.stop());
+    recorder.current = null;
+    stream.current = null;
+    setListening(false);
+  }
   function close() {
     request.current?.abort();
-    speech.current?.abort();
+    stopVoice();
     window.speechSynthesis?.cancel();
+    setBusy(false);
     setOpen(false);
     launcher.current?.focus();
   }
@@ -71,15 +77,65 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
     utterance.onerror = () => setNotice('Audio playback was unavailable. Your reply is displayed above.');
     window.speechSynthesis.speak(utterance);
   }
-  function speak() {
-    if(listening){speech.current?.abort();return;}
-    if(!RecognitionAPI)return;
-    window.speechSynthesis?.cancel();
-    const mic=new RecognitionAPI();speech.current=mic;mic.lang='en-US';
-    mic.onresult=e=>{const text=e.results[0]?.[0]?.transcript;if(text)void send(text,true);};
-    mic.onerror=()=>{setListening(false);setNotice('Voice input is unavailable. Check microphone permission in your browser, or type your question.');};
-    mic.onend=()=>{setListening(false);speech.current=null;};
-    try {mic.start();setListening(true);setNotice('Listening for your question…');}catch{setNotice('Microphone unavailable. You can type your question.');}
+  async function speak() {
+    if (listening) {recorder.current?.stop();return;}
+    if (!voiceSupported) return;
+    const session = ++voiceSession.current;
+    setBusy(true);
+    setNotice('Allow microphone access to ask a question.');
+    try {
+      const microphone = await navigator.mediaDevices.getUserMedia({audio:true});
+      if (session !== voiceSession.current) {microphone.getTracks().forEach(track=>track.stop());return;}
+      stream.current = microphone;
+      const type = ['audio/webm;codecs=opus','audio/mp4','audio/ogg;codecs=opus'].find(value=>MediaRecorder.isTypeSupported(value));
+      const recording = new MediaRecorder(microphone, type ? {mimeType:type,audioBitsPerSecond:32000} : undefined);
+      recorder.current = recording;
+      const chunks: BlobPart[] = [];
+      recording.ondataavailable = event => {if(event.data.size)chunks.push(event.data);};
+      recording.onstop = async () => {
+        window.clearTimeout(voiceTimer.current);
+        microphone.getTracks().forEach(track=>track.stop());
+        stream.current = null;
+        recorder.current = null;
+        setListening(false);
+        if (session !== voiceSession.current) return;
+        setBusy(true);setNotice('Transcribing your question…');
+        const controller = new AbortController();
+        request.current = controller;
+        const timeout = window.setTimeout(()=>controller.abort('timeout'),20000);
+        try {
+          const blob = new Blob(chunks,{type:recording.mimeType});
+          if (blob.size > 1000000) throw new Error('Please keep your question brief and try again.');
+          const data = await new Promise<string>((resolve,reject)=>{
+            const reader = new FileReader();
+            reader.onload=()=>resolve(String(reader.result).split(',')[1]);
+            reader.onerror=()=>reject(new Error('Could not read the recording.'));
+            reader.readAsDataURL(blob);
+          });
+          const response = await fetch('https://aiscribers.com/api/voice', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({audio:data,mimeType:recording.mimeType.split(';')[0]}),
+            signal:controller.signal,
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error);
+          request.current = null;
+          if (session === voiceSession.current) await send(result.text,true);
+        } catch(error) {
+          if (controller.signal.reason==='timeout')setNotice('Transcription took too long. Please try again or type your question.');
+          else if (!controller.signal.aborted) setNotice(error instanceof Error ? error.message : 'Voice is unavailable. Please type your question.');
+        } finally {window.clearTimeout(timeout);if(request.current===controller)request.current=null;setBusy(false);}
+      };
+      recording.onerror = () => {stopVoice();setNotice('Microphone recording stopped. Please type your question or try again.');};
+      window.speechSynthesis?.cancel();
+      recording.start();
+      setBusy(false);
+      setListening(true);setNotice('Recording. Tap Stop when finished. Recording stops after 12 seconds.');
+      voiceTimer.current = window.setTimeout(()=>{if(recording.state==='recording')recording.stop();},12000);
+    } catch {
+      stopVoice();setBusy(false);
+      setNotice('Microphone access is unavailable. Check your browser permission or type your question.');
+    }
   }
   return <aside className={'fixed bottom-4 z-[9993] flex flex-col items-end gap-2 '+(tuningOpen?'right-4 sm:right-[372px]':'right-4')}>
     {open && <section aria-label="AIMS Concierge" onKeyDown={e=>{if(e.key==='Escape')close();}} className="concierge-panel">
@@ -92,7 +148,7 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
       <div className="concierge-actions"><button onClick={()=>readAloud(turns[turns.length-1].text)}>Read reply</button><a href={'tel:'+contactPhone}>Call front desk</a><button onClick={()=>{close();onNavigateSection('platform','section-contact');}}>Contact Jasmel</button></div>
       <form onSubmit={e=>{e.preventDefault();void send(input);}}>
         <input ref={field} aria-label="Your website question" placeholder="Ask about AIMS…" maxLength={800} value={input} onChange={e=>setInput(e.target.value)}/>
-        {RecognitionAPI && <button type="button" disabled={busy} aria-pressed={listening} onClick={speak}>{listening?'Stop':'Speak'}</button>}
+        {voiceSupported && <button type="button" disabled={busy} aria-pressed={listening} onClick={speak}>{listening?'Stop':'Speak'}</button>}
         <button disabled={busy||listening||!input.trim()}>Send</button>
       </form>{notice&&<small role="status">{notice}</small>}
     </section>}
