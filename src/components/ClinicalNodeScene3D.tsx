@@ -179,6 +179,7 @@ interface ClinicalNodeScene3DProps {
 export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme }) => {
   const canvasMountRef = useRef<HTMLDivElement | null>(null);
 
+  const [graphicsUnavailable, setGraphicsUnavailable] = useState(false);
   const [dockCollapsed, setDockCollapsed] = useState(false);
   const [exploded, setExploded] = useState(0);
   const [cameraPreset, setCameraPreset] = useState<NodeCameraPreset>('overview');
@@ -235,10 +236,16 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
     const width = Math.max(320, container.clientWidth);
     const height = Math.max(360, container.clientHeight);
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: !isSoftwareGl,
-      powerPreference: 'high-performance',
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: !isSoftwareGl,
+        powerPreference: 'high-performance',
+      });
+    } catch {
+      setGraphicsUnavailable(true);
+      return;
+    }
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
@@ -854,6 +861,16 @@ export const ClinicalNodeScene3D: React.FC<ClinicalNodeScene3DProps> = ({ theme 
       }
     };
   }, []);
+
+  if (graphicsUnavailable) {
+    return <figure className="overflow-hidden rounded-2xl border border-border-subtle bg-surface-panel">
+      <img src="/images/consultation-recording.webp" alt="A phone recording an example consultation" className="max-h-[440px] w-full object-cover" />
+      <figcaption className="p-5">
+        <h2 className="font-headline-sm">From the visit to a draft note</h2>
+        <p className="mt-2 text-text-secondary">Follow the sample conversation, review the draft, and check the suggested codes before clinician sign-off.</p>
+      </figcaption>
+    </figure>;
+  }
 
   return (
     <div className="relative w-full h-[68vh] min-h-[540px] max-h-[800px] rounded-xl overflow-hidden border border-border-subtle shadow-lg bg-surface-container-lowest">
