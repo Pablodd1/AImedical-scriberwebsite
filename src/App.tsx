@@ -1,3 +1,4 @@
+import { TeamSection } from './components/TeamSection';
 import { siteReview } from './components/ReviewContact';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
@@ -27,8 +28,25 @@ const NAV_TABS: Array<{ id: AppTabId; label: string }> = [
   { id: 'security-hipaa', label: 'Billing' },
 ];
 
+const tabHashes: Record<AppTabId, string> = {'platform':'overview','7-step-flow':'patient-flow','ai-scribe':'ai-scribe','security-hipaa':'billing'};
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<AppTabId>('platform');
+  useEffect(() => {
+    function navigateFromHash() {
+      const hash = window.location.hash.slice(1);
+      const tab = (Object.keys(tabHashes) as AppTabId[]).find(key => tabHashes[key] === hash);
+      if (tab) setActiveTab(tab);
+      if (hash === 'contact') {
+        setActiveTab('platform');
+        setTimeout(() => document.getElementById('section-contact')?.scrollIntoView(), 100);
+      }
+    }
+    navigateFromHash();
+    window.addEventListener('hashchange', navigateFromHash);
+    window.addEventListener('popstate', navigateFromHash);
+    return () => {window.removeEventListener('hashchange', navigateFromHash);window.removeEventListener('popstate', navigateFromHash);};
+  }, []);
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [signInOpen, setSignInOpen] = useState(false);
   const [activeLegalPolicy, setActiveLegalPolicy] = useState<LegalModalTab | null>(null);
@@ -57,6 +75,7 @@ export default function App() {
 
   const handleNavigateSection = useCallback((tab: AppTabId, sectionId?: string) => {
     setActiveTab(tab);
+    history.pushState(null, '', '#' + (sectionId === 'section-contact' ? 'contact' : tabHashes[tab]));
 
     if (sectionId) {
       window.setTimeout(() => {
@@ -75,6 +94,7 @@ export default function App() {
   const selectTab = (tab: AppTabId, event: React.MouseEvent<HTMLButtonElement>) => {
     function showTab() {
       flushSync(() => setActiveTab(tab));
+      history.pushState(null, '', '#' + tabHashes[tab]);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -226,6 +246,8 @@ export default function App() {
               </span>
             </button>
 
+            <a href="https://aimedicalscriber.com/login" className="clinic-login text-clinical-teal underline whitespace-nowrap">Clinic sign in</a>
+
             {/* Zone 2: 5 Concise Single-Line Primary Navigation Links */}
             <nav className="hidden lg:flex items-center gap-6" aria-label="Primary">
               {NAV_TABS.map((tab) => {
@@ -286,7 +308,7 @@ export default function App() {
                 onClick={handleOpenContactHub}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary font-body-md font-semibold transition-colors shadow-sm whitespace-nowrap shrink-0 cursor-pointer"
               >
-                <span>Book a Demo</span>
+                <span>Request a walkthrough</span>
               </button>
             </div>
           </div>
@@ -332,7 +354,7 @@ export default function App() {
         <main id="main-content" tabIndex={-1} className="relative z-10 w-full flex-1">
           {siteReview && (
             <p className="border-b border-border-subtle px-4 py-3 text-center font-body-sm text-text-secondary">
-              Product preview · Use sample data only.
+              Explore sample workflows. Existing clinics can sign in to the AIMS workspace.
             </p>
           )}
           <div key={activeTab}>
@@ -365,6 +387,7 @@ export default function App() {
           </div>
         </main>
 
+        <TeamSection />
         {/* Official Frosted Glass Website Footer */}
         <footer className="relative z-10 w-full glass-surface border-t border-border-subtle pt-12 pb-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col gap-8">
@@ -382,7 +405,7 @@ export default function App() {
                   integrated with Office Ally.
                 </p>
                 <div className="font-caption text-alert-success font-medium">
-                  {siteReview ? 'AIMS product preview' : 'Live at aimedicalscriber.com · Built for HIPAA-conscious workflows · BAA Available'}
+                  {siteReview ? 'AIMS product preview' : 'Live at aiscribers.com · Built for HIPAA-conscious workflows · BAA Available'}
                 </div>
                 <div className="font-code-clinical text-xs text-text-secondary pt-1 flex flex-wrap items-center gap-2">
                   <a href="mailto:jasmelacosta@gmail.com" className="text-clinical-teal hover:underline">jasmelacosta@gmail.com</a>

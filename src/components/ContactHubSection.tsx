@@ -28,7 +28,7 @@ const CONTACT_AREA_CHANNELS: ContactAreaChannel[] = [
     icon: 'calendar_month',
     summary:
       '1-on-1 specialty walkthrough covering the AI Medical Scribe, Unified EHR, Smart Intake Form, Visual OCR, and review.',
-    highlights: ['Live Patientless Scribe Simulator', 'Instant Staff Training Sandbox'],
+    highlights: ['Live Sample Scribe Workflow', 'Instant Staff Training Sandbox'],
   },
   {
     id: 'onboarding',
@@ -202,7 +202,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
             <p className="font-body-lg text-text-secondary max-w-3xl mt-2">
               Connect directly with AIMS onboarding specialists, AI medical billing advisors, or
               schedule a personalized live demo at{' '}
-              <span className="font-code-clinical text-clinical-teal">aimedicalscriber.com</span>.
+              <span className="font-code-clinical text-clinical-teal">aiscribers.com</span>.
             </p>
           </div>
           <div className="flex flex-col items-start md:items-end gap-1">
@@ -328,7 +328,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
                         </span>
                         .{' '}
                         {receipt.sandboxProvisioned
-                          ? 'Training sandbox & Patientless Scribe Simulator queued.'
+                          ? 'Training sandbox & Sample Scribe Workflow queued.'
                           : 'A clinical specialist will follow up shortly.'}
                       </p>
                     </div>
@@ -744,7 +744,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
                   </span>
                   <div>
                     <div className="font-section-title text-text-primary">
-                      Sandbox &amp; Patientless Scribe Simulator
+                      Sandbox &amp; Sample Scribe Workflow
                     </div>
                     <p className="font-body-sm text-text-secondary mt-0.5">
                       Explore the AI Medical Scribe, review, Visual OCR, and Express
@@ -791,7 +791,7 @@ export const ContactHubSection: React.FC<ContactHubSectionProps> = ({ onNotify }
                   Operations &amp; Regional Presence
                 </span>
                 <span className="font-code-clinical text-xs text-alert-success">
-                  aimedicalscriber.com
+                  aiscribers.com
                 </span>
               </div>
               <div className="font-section-title text-text-primary">

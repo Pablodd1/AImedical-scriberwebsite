@@ -27,7 +27,7 @@ export function HeroWorkflow({ onNavigateSection }: HeroWorkflowProps) {
               onClick={() => onNavigateSection('platform', 'section-contact')}
               className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-clinical-teal px-4 font-semibold text-on-primary hover:opacity-90"
             >
-              Request a walkthrough <ArrowRight aria-hidden="true" size={18} />
+              Request a walkthrough
             </button>
             <button
               type="button"

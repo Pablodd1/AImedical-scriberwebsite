@@ -97,7 +97,7 @@ export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
           <div className="lg:col-span-6 flex flex-col gap-3.5">
             <span className="font-caption font-semibold text-clinical-teal">{contextLabel}</span>
             <h2 className="font-display-hero text-text-primary">
-              Book a Live Clinic Walkthrough &amp; Sandbox.
+              Request a clinic walkthrough.
             </h2>
             <p className="font-body-lg text-text-secondary">
               See the complete 7-step patient flow, ambient AI Medical Scribe, Visual OCR
@@ -342,7 +342,7 @@ export const BookDemoSection: React.FC<BookDemoSectionProps> = ({
                       : 'bg-clinical-teal hover:bg-primary-container text-on-primary'
                   }`}
                 >
-                  {submitting ? 'Booking...' : fieldsConfirmed ? 'Demo Requested' : 'Book a Demo'}
+                  {submitting ? 'Booking...' : fieldsConfirmed ? 'Demo Requested' : 'Request a walkthrough'}
                 </button>
               </div>
             </div>

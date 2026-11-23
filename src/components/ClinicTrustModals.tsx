@@ -28,7 +28,7 @@ export const SignInModal: React.FC<SignInModalProps> = ({
     if (!clinicEmail.trim()) return;
     setStatusMessage(
       portalType === 'provider'
-        ? `Single-sign-on verification link sent to ${clinicEmail.trim()} for aimedicalscriber.com.`
+        ? `Single-sign-on verification link sent to ${clinicEmail.trim()} for aiscribers.com.`
         : `Patient Portal magic sign-in link sent to ${clinicEmail.trim()}.`
     );
     onNotify(
@@ -278,67 +278,19 @@ export const LegalPolicyModal: React.FC<LegalPolicyModalProps> = ({
             <div className="p-6 overflow-y-auto space-y-4 font-body-sm text-text-secondary leading-relaxed">
               {activePolicy === 'baa' && (
                 <>
-                  <h3 className="font-headline-sm text-text-primary">
-                    Business Associate Agreement (BAA) &amp; HIPAA-Conscious Architecture
-                  </h3>
-                  <p>
-                    AIMS (Artificial Intelligence Medical Scribe) is built from the ground up for
-                    HIPAA-conscious clinical workflows and executes a formal{' '}
-                    <strong className="text-text-primary">
-                      Business Associate Agreement (BAA)
-                    </strong>{' '}
-                    with onboarding healthcare practices prior to live Protected Health Information
-                    (PHI) use.
-                  </p>
-                  <ul className="space-y-2 text-text-primary">
-                    <li className="flex items-start gap-2">
-                      <span className="material-symbols-outlined text-sm text-clinical-teal mt-0.5">
-                        check_circle
-                      </span>
-                      <span>
-                        <strong>Patientless Training Sandbox First:</strong> Clinics evaluate and
-                        train staff using synthetic encounters before importing real patient records.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="material-symbols-outlined text-sm text-clinical-teal mt-0.5">
-                        check_circle
-                      </span>
-                      <span>
-                        <strong>Role-Scoped Access &amp; Audit Trails:</strong> Separate permission
-                        boundaries across Clinic Owners, Providers, Front-Desk Staff, and Portal
-                        Patients, plus countersigned consent verification seals.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="material-symbols-outlined text-sm text-clinical-teal mt-0.5">
-                        check_circle
-                      </span>
-                      <span>
-                        <strong>Protected Clearinghouse Connectivity:</strong> Scrubbed claims flow
-                        solely to your authorized Office Ally clearinghouse account.
-                      </span>
-                    </li>
-                  </ul>
+                  <h3 className="font-headline-sm text-text-primary">Practice security review</h3>
+                  <p>Before using AIMS with patient information, your practice and the AIMS team need to review access controls, recording consent, data handling, and the required agreements.</p>
+                  <p>Request the proposed BAA and supporting security documents during practice onboarding. This website does not include a public BAA or an independent compliance certification.</p>
                 </>
               )}
 
               {activePolicy === 'privacy' && (
                 <>
-                  <h3 className="font-headline-sm text-text-primary">
-                    Website &amp; Clinical Data Privacy Policy
-                  </h3>
-                  <p>
-                    We never sell, rent, or share physician or patient data with advertising
-                    networks. Inquiries submitted on <code className="font-code-clinical">aimedicalscriber.com</code>{' '}
-                    are used strictly to coordinate live demonstrations, sandbox provisioning, EHR
-                    migration, and Office Ally billing support.
-                  </p>
-                  <p>
-                    Clinical audio, spoken intake responses, and visual OCR insurance/ID uploads
-                    inside active clinic workspaces remain isolated to the treating practice and are
-                    never used to market third-party products.
-                  </p>
+                  <h3 className="font-headline-sm text-text-primary">Website privacy</h3>
+                  <p>aiscribers.com collects the name, business contact details, organization, and message you submit when requesting a walkthrough. AIMS uses that information to respond to your inquiry.</p>
+                  <p>Inquiries are stored privately on our hosting service. A notification may be sent to the AIMS team when email delivery is configured. Contact jasmelacosta@gmail.com to request access to or deletion of your inquiry.</p>
+                  <p>The Concierge processes your website questions to select a relevant answer. Browser voice features may use your browser’s speech service. Please use sample information and keep patient records out of both chat and the contact form.</p>
+                  <p>This policy covers the marketing website. Clinical workspace data handling and agreements are reviewed separately with each practice.</p>
                 </>
               )}
 

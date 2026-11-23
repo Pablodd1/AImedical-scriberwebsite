@@ -261,7 +261,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                       </span>
                     </div>
                     <span className="font-caption text-text-muted">
-                      Dr. Alvarez, DC · Pt: Elena Morales (DOB: 1984-06-12)
+                      Dr. Mateo Alvarez, DC · Pt: Elena Morales (DOB: 1984-06-12)
                     </span>
                   </div>
 
@@ -355,7 +355,7 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
                   <div className="flex items-center justify-between text-text-muted font-caption">
                     <span>Hands-Free Ambient Clinical Audio</span>
                     <span className="font-code-clinical text-text-primary">
-                      Patientless Simulator Included
+                      Sample encounter
                     </span>
                   </div>
                   <div className="h-9 bg-surface-canvas border border-border-subtle rounded-lg flex items-center px-4 justify-between gap-1 overflow-hidden">

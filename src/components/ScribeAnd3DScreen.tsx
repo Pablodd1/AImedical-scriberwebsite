@@ -81,7 +81,7 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
                 See how a conversation becomes a draft note
               </h1>
               <p className="font-body-lg text-text-secondary max-w-3xl mt-2">
-                Try the scribe with a sample conversation. Follow the draft SOAP note, review the suggested codes,
+                Explore a sample conversation and draft SOAP note. Review the suggested codes,
                 and see where the clinician would check and sign off.
               </p>
             </div>
@@ -92,7 +92,7 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
               className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
             >
               <span className="material-symbols-outlined text-lg">science</span>
-              <span>Try Scribe Simulator</span>
+              <span>Request a scribe walkthrough</span>
             </button>
           </div>
 

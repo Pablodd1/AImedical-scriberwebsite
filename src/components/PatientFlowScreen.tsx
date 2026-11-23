@@ -88,7 +88,7 @@ const SEVEN_STEPS_DATA: StepDetail[] = [
       { label: 'Ambient Capture', value: 'Hands-free speaker-separated encounter listening' },
       { label: 'Mid-Visit Copilot', value: 'Query chart history, labs, or ROM mid-exam' },
       { label: 'Objective Extraction', value: 'Spurling’s (+Right) · Cervical Extension 32°' },
-      { label: 'Training Mode', value: 'Includes patientless simulator for staff onboarding' },
+      { label: 'Training Mode', value: 'Sample encounter for staff review' },
     ],
   },
   {

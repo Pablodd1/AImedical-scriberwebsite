@@ -307,7 +307,7 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
     category: 'Scribe & Notes',
     summary: 'Side-by-side live encounter transcription and mid-visit AI clinical assistant.',
     detail:
-      'Listens naturally to the consultation and drafts structured SOAP notes, ICD-10 diagnoses, CPT codes, red-flag alerts, and follow-up plans—complete with screen wake-lock and a patientless simulator.',
+      'Listens naturally to the consultation and drafts structured SOAP notes, ICD-10 diagnoses, CPT codes, red-flag alerts, and follow-up plans—complete with screen wake-lock and a sample workflow.',
     api: 'Ambient Scribe + SOAP Synthesis',
   },
   {
@@ -319,16 +319,6 @@ export const AI_TOOLS_CATALOG: AiToolSpec[] = [
     detail:
       'Cross-examines the generated SOAP note against the conversation transcript and clinical coding rules to catch missing exam details, unsupported modifiers, or safety gaps before sign-off.',
     api: 'Clinical Verification',
-  },
-  {
-    num: '03',
-    name: 'clinical review',
-    route: '/monitor/',
-    category: 'Scribe & Notes',
-    summary: 'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
-    detail:
-      'Review the draft against the visit conversation, check suggested codes, and resolve missing details before signing.',
-    api: 'Clinical review',
   },
   {
     num: '04',

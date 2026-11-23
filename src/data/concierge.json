@@ -1,13 +1,62 @@
 [
-  {"topic":"overview","terms":"overview,what is aims,what do you do,features,platform","reply":"AIMS helps practices gather a patient’s story before the visit, prepare a draft note during the conversation, and review documentation before billing. Which part would you like to explore?"},
-  {"topic":"intake","terms":"intake,symptoms,insurance card,family history,forms,ocr,photo id,previsit","reply":"Patients can use a link to speak or type their symptoms, recent tests, medicines, and family history in their own words. Staff can review the summary and check details captured from an ID or insurance card before the visit."},
-  {"topic":"scribe","terms":"scribe,notes,soap,transcribe,recording,documentation","reply":"The scribe turns a visit conversation into a draft clinical note. The clinician checks it against the visit, edits the draft, and signs when it is ready."},
-  {"topic":"billing","terms":"billing,coding,icd,cpt,claims,payments,invoices","reply":"The billing example shows how staff review suggested diagnosis and procedure codes alongside the draft paperwork. Your clinician or biller makes the final coding decision."},
-  {"topic":"desk","terms":"front desk,schedule,calendar,reminders,appointments,staff","reply":"The patient flow shows intake, scheduling, reminders, and chart review. If you want to arrange a product walkthrough, choose Contact Jasmel and tell us about your practice."},
-  {"topic":"followup","terms":"follow-up,follow up,chart,previous,referrals,instructions","reply":"The visit examples bring earlier notes into view so the clinician can review changes, prepare follow-up instructions, and decide what the patient needs next."},
-  {"topic":"contact","terms":"demo,email,contact,phone,call,pricing,price,cost,book,instagram,human","reply":"Email Jasmel at jasmelacosta@gmail.com or call or text (786) 643-2099. Choose Contact Jasmel to prepare a walkthrough request, or find @aiscribers on Instagram."},
-  {"topic":"privacy","terms":"privacy,security,hipaa,baa,certified,patient data","reply":"Please use sample information here. For your practice’s privacy requirements, access controls, or agreement terms, Jasmel can walk through the details with you."},
-  {"topic":"integrations","terms":"integration,integrate,epic,athena,external ehr","reply":"AIMS is presented as a standalone clinical workspace. An integration with another EHR is not currently offered. Tell Jasmel which system you use if you want to discuss your workflow."},
-  {"topic":"voice","terms":"microphone,voice chat,speak to you,voice mode","reply":"Choose Speak to ask a website question by voice in a supported browser. You can also type here or use Call front desk to dial Jasmel directly."},
-  {"topic":"unknown","terms":"","reply":"I can help with AIMS intake, scribing, chart review, billing, or a walkthrough. For a question the website doesn’t cover, choose Contact Jasmel."}
+  {
+    "topic": "overview",
+    "terms": "overview,what is aims,what do you do,features,platform,what does,product,capable,offer",
+    "reply": "AIMS helps practices gather a patient\u2019s story before the visit, prepare a draft note during the conversation, and review documentation before billing. Which part would you like to explore?"
+  },
+  {
+    "topic": "pricing",
+    "terms": "price,pricing,cost,quote,plans",
+    "reply": "Pricing is provided after a discussion of your practice\u2019s needs. Use Request a walkthrough to send your practice details and ask for a quote."
+  },
+  {
+    "topic": "intake",
+    "terms": "intake,symptoms,insurance card,family history,forms,ocr,photo id,previsit",
+    "reply": "Patients can use a link to speak or type their symptoms, recent tests, medicines, and family history in their own words. Staff can review the summary and check details captured from an ID or insurance card before the visit."
+  },
+  {
+    "topic": "scribe",
+    "terms": "scribe,notes,soap,transcribe,recording,documentation",
+    "reply": "The scribe turns a visit conversation into a draft clinical note. The clinician checks it against the visit, edits the draft, and signs when it is ready. The examples on this website use sample information. Existing clinic users can open Clinic sign in."
+  },
+  {
+    "topic": "billing",
+    "terms": "billing,coding,icd,cpt,claims,payments,invoices",
+    "reply": "The billing example shows how staff review suggested diagnosis and procedure codes alongside the draft paperwork. Your clinician or biller makes the final coding decision."
+  },
+  {
+    "topic": "desk",
+    "terms": "front desk,schedule,calendar,reminders,appointments,staff",
+    "reply": "The patient flow shows intake, scheduling, reminders, and chart review. If you want to arrange a product walkthrough, choose Contact Jasmel and tell us about your practice."
+  },
+  {
+    "topic": "followup",
+    "terms": "follow-up,follow up,chart,previous,referrals,instructions",
+    "reply": "The visit examples bring earlier notes into view so the clinician can review changes, prepare follow-up instructions, and decide what the patient needs next."
+  },
+  {
+    "topic": "contact",
+    "terms": "demo,email,contact,phone,call,book,instagram,human",
+    "reply": "Email Jasmel at jasmelacosta@gmail.com or call or text (786) 643-2099. Choose Contact Jasmel to prepare a walkthrough request, or find @aiscribers on Instagram."
+  },
+  {
+    "topic": "privacy",
+    "terms": "privacy,security,hipaa,baa,certified,patient data",
+    "reply": "Please use sample information here. For your practice\u2019s privacy requirements, access controls, or agreement terms, Jasmel can walk through the details with you."
+  },
+  {
+    "topic": "integrations",
+    "terms": "integration,integrate,epic,athena,external ehr",
+    "reply": "AIMS is presented as a standalone clinical workspace. An integration with another EHR is not currently offered. Tell Jasmel which system you use if you want to discuss your workflow."
+  },
+  {
+    "topic": "voice",
+    "terms": "microphone,voice chat,speak to you,voice mode",
+    "reply": "Choose Speak to ask a website question by voice in a supported browser. You can also type here or use Call front desk to dial Jasmel directly."
+  },
+  {
+    "topic": "unknown",
+    "terms": "",
+    "reply": "I can help with AIMS intake, scribing, chart review, billing, or a walkthrough. For a question the website doesn\u2019t cover, choose Contact Jasmel."
+  }
 ]

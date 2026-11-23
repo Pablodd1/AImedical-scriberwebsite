@@ -445,3 +445,10 @@
 .concierge-panel input {flex:1}
 .concierge-actions {font-size:.88rem;justify-content:flex-start;text-decoration:underline}
 .concierge-panel>small {padding:0 .9rem .5rem}
+
+/* The navigation surface stays opaque as content scrolls underneath it. */
+.glass-header {background:#f8fafc !important;backdrop-filter:none !important}
+[data-theme="dark"] .glass-header {background:#121c2b !important}
+.clinic-login {font-size:.875rem}
+@media(max-width:540px){.glass-header>div:first-child{gap:.6rem}.clinic-login{font-size:.8rem}.glass-header .font-section-title{font-size:.9rem}}
+@media(max-width:540px){.glass-header>div:first-child{height:auto;min-height:4rem;flex-wrap:wrap;padding-top:.5rem;padding-bottom:.5rem}.glass-header>div:first-child>div:last-child{margin-left:auto}.glass-header>div:first-child>div:last-child>button:last-child{font-size:.8rem;padding:.5rem}.concierge-actions{flex-wrap:wrap}}

@@ -51,12 +51,24 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
     const timer=window.setTimeout(()=>controller.abort('timeout'),8000);
     try {
       const response=await fetch('https://aiscribers.com/api/concierge',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({turns:history.slice(-5).map(t=>t.text)}),signal:controller.signal});
-      if(response.ok){const data=await response.json();answer=topics.find(t=>t.topic===data.topic)??answer;}
+      if(response.ok){const data=await response.json();answer=data.topic==='contact' && /what (does|is|can)|features|pricing|cost/i.test(question) ? answer : topics.find(t=>t.topic===data.topic)??answer;}
     } catch { /* The same published answers are available offline. */ }
     finally {clearTimeout(timer);request.current=null;setBusy(false);}
     if(controller.signal.aborted && controller.signal.reason!=='timeout')return;
     setTurns([...history,{role:'concierge',text:answer.reply}]);
-    if(spoken && window.speechSynthesis)window.speechSynthesis.speak(new SpeechSynthesisUtterance(answer.reply));
+    if(spoken)readAloud(answer.reply);
+  }
+  function readAloud(text: string) {
+    if (!window.speechSynthesis) {setNotice('Spoken replies are unavailable in this browser.');return;}
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    const voices = window.speechSynthesis.getVoices();
+    const voice = voices.find(v => v.lang === 'en-US' && /natural|premium|samantha|google/i.test(v.name))
+      ?? voices.find(v => v.lang === 'en-US');
+    if (voice) utterance.voice = voice;
+    utterance.onerror = () => setNotice('Audio playback was unavailable. Your reply is displayed above.');
+    window.speechSynthesis.speak(utterance);
   }
   function speak() {
     if(listening){speech.current?.abort();return;}
@@ -64,7 +76,7 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
     window.speechSynthesis?.cancel();
     const mic=new RecognitionAPI();speech.current=mic;mic.lang='en-US';
     mic.onresult=e=>{const text=e.results[0]?.[0]?.transcript;if(text)void send(text,true);};
-    mic.onerror=()=>{setListening(false);setNotice('Voice input stopped. You can type here or call the front desk.');};
+    mic.onerror=()=>{setListening(false);setNotice('Voice input is unavailable. Check microphone permission in your browser, or type your question.');};
     mic.onend=()=>{setListening(false);speech.current=null;};
     try {mic.start();setListening(true);setNotice('Listening for your question…');}catch{setNotice('Microphone unavailable. You can type your question.');}
   }
@@ -76,7 +88,7 @@ export function AimsChatbotWidget({onNavigateSection,tuningOpen}: {onNavigateSec
         {turns.length===1 && ['How does intake work?','How does the scribe help?'].map(q=><button key={q} onClick={()=>void send(q)}>{q}</button>)}
         {busy && <small>Preparing a reply…</small>}
       </div>
-      <div className="concierge-actions"><a href={'tel:'+contactPhone}>Call front desk</a><button onClick={()=>{close();onNavigateSection('platform','section-contact');}}>Contact Jasmel</button></div>
+      <div className="concierge-actions"><button onClick={()=>readAloud(turns[turns.length-1].text)}>Read reply</button><a href={'tel:'+contactPhone}>Call front desk</a><button onClick={()=>{close();onNavigateSection('platform','section-contact');}}>Contact Jasmel</button></div>
       <form onSubmit={e=>{e.preventDefault();void send(input);}}>
         <input ref={field} aria-label="Your website question" placeholder="Ask about AIMS…" maxLength={800} value={input} onChange={e=>setInput(e.target.value)}/>
         {RecognitionAPI && <button type="button" disabled={busy} aria-pressed={listening} onClick={speak}>{listening?'Stop':'Speak'}</button>}
