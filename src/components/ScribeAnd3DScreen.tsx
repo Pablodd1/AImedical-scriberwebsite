@@ -1,4 +1,4 @@
-import { ReviewContact, siteReview } from './ReviewContact';
+import { prefillAndScrollToContact, ReviewContact, siteReview } from './ReviewContact';
 import React, { useMemo, useState } from 'react';
 import { ThemeMode } from '../engine/inkBleedEngine';
 import {
@@ -8,6 +8,7 @@ import {
 import { ClinicalNodeScene3D } from './ClinicalNodeScene3D';
 import { BookDemoSection } from './BookDemoSection';
 import { GlassCard } from './GlassCard';
+import { InteractiveScribeSandbox, SandboxMode } from './InteractiveScribeSandbox';
 
 interface ScribeAnd3DScreenProps {
   theme: ThemeMode;
@@ -41,6 +42,14 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<'All' | AiToolSpec['category']>('All');
   const [toolSearch, setToolSearch] = useState('');
   const [showAllTools, setShowAllTools] = useState(false);
+  const [sandboxMode, setSandboxMode] = useState<SandboxMode>('scribe');
+
+  const openSandbox = (mode: SandboxMode) => {
+    setSandboxMode(mode);
+    window.setTimeout(() => {
+      document.getElementById('section-sandbox')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 40);
+  };
 
 
   const filteredTools = useMemo(() => {
@@ -86,17 +95,43 @@ export const ScribeAnd3DScreen: React.FC<ScribeAnd3DScreenProps> = ({
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={scrollToDemo}
-              className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-lg">science</span>
-              <span>Request a scribe walkthrough</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => openSandbox('scribe')}
+                className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">science</span>
+                <span>Try Scribe Simulator</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openSandbox('video')}
+                className="inline-flex items-center gap-2 rounded-xl bg-surface-canvas hover:bg-surface-panel border border-border-subtle text-text-primary px-4 py-2.5 font-body-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg text-clinical-teal">smart_display</span>
+                <span>Watch Recorded Walkthrough</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={scrollToDemo}
+                className="inline-flex items-center gap-1.5 px-3 py-2 font-body-sm font-semibold text-clinical-teal underline underline-offset-4 cursor-pointer whitespace-nowrap"
+              >
+                <span>Request walkthrough (agree on a time)</span>
+              </button>
+            </div>
           </div>
 
           <ClinicalNodeScene3D theme={theme} />
+
+          <InteractiveScribeSandbox
+            key={sandboxMode}
+            initialMode={sandboxMode}
+            onNotify={onNotify}
+            onRequestWalkthrough={(prefill) => prefillAndScrollToContact(prefill)}
+          />
 
         </section>
 

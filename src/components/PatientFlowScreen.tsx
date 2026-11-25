@@ -1,8 +1,9 @@
-import { ReviewContact, siteReview } from './ReviewContact';
+import { prefillAndScrollToContact, ReviewContact, siteReview } from './ReviewContact';
 import React, { useState } from 'react';
 import { CORE_EHR_MODULES } from '../data/aimsSpecData';
 import { BookDemoSection } from './BookDemoSection';
 import { GlassCard } from './GlassCard';
+import { InteractiveScribeSandbox, SandboxMode } from './InteractiveScribeSandbox';
 
 interface PatientFlowScreenProps {
   onNotify: (msg: string) => void;
@@ -200,6 +201,14 @@ export const PatientFlowScreen: React.FC<PatientFlowScreenProps> = ({
   const [lookupQuery, setLookupQuery] = useState('Elena Morales (#PT-10492)');
   const [selectedEhrId, setSelectedEhrId] = useState(CORE_EHR_MODULES[0].id);
   const [showAllEhrModules, setShowAllEhrModules] = useState(false);
+  const [sandboxMode, setSandboxMode] = useState<SandboxMode>('video');
+
+  const openSandbox = (mode: SandboxMode) => {
+    setSandboxMode(mode);
+    window.setTimeout(() => {
+      document.getElementById('section-sandbox')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 40);
+  };
 
   const activeStep = SEVEN_STEPS_DATA[activeStepIdx];
   const activeEhr =
@@ -241,16 +250,35 @@ export const PatientFlowScreen: React.FC<PatientFlowScreenProps> = ({
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={() =>
-                document.getElementById('book-demo')?.scrollIntoView({ behavior: 'smooth' })
-              }
-              className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-lg">calendar_month</span>
-              <span>Book EHR Walkthrough</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => openSandbox('video')}
+                className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">smart_display</span>
+                <span>Watch Recorded Walkthrough</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openSandbox('scribe')}
+                className="inline-flex items-center gap-2 rounded-xl bg-surface-canvas hover:bg-surface-panel border border-border-subtle text-text-primary px-4 py-2.5 font-body-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg text-clinical-teal">mic</span>
+                <span>Try Scribe Simulator</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  prefillAndScrollToContact('Interested in the 7-Step Patient Flow & Unified EHR walkthrough.')
+                }
+                className="inline-flex items-center gap-1.5 px-3 py-2 font-body-sm font-semibold text-clinical-teal underline underline-offset-4 cursor-pointer whitespace-nowrap"
+              >
+                <span>Request walkthrough (agree on a time)</span>
+              </button>
+            </div>
           </div>
 
           {/* Returning Patient Quick-Note Controls */}
@@ -601,6 +629,13 @@ export const PatientFlowScreen: React.FC<PatientFlowScreenProps> = ({
           </div>
         </section>
       </div>
+
+      <InteractiveScribeSandbox
+        key={sandboxMode}
+        initialMode={sandboxMode}
+        onNotify={onNotify}
+        onRequestWalkthrough={(prefill) => prefillAndScrollToContact(prefill)}
+      />
 
       {siteReview ? <ReviewContact id="book-demo" /> : <BookDemoSection
         onNotify={onNotify}

@@ -1,10 +1,11 @@
-import { ReviewContact, siteReview } from './ReviewContact';
+import { prefillAndScrollToContact, ReviewContact, siteReview } from './ReviewContact';
 import React, { useState } from 'react';
 import { AppTabId } from '../App';
 import { PLATFORM_ROLES } from '../data/aimsSpecData';
 import { ContactHubSection } from './ContactHubSection';
 import { GlassCard } from './GlassCard';
 import { HeroWorkflow } from './HeroWorkflow';
+import { InteractiveScribeSandbox, SandboxMode } from './InteractiveScribeSandbox';
 
 
 interface PlatformScreenProps {
@@ -170,6 +171,14 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
 }) => {
   const [signState, setSignState] = useState<'idle' | 'signing' | 'signed'>('idle');
   const [activeSpecialtyId, setActiveSpecialtyId] = useState(SPECIALTY_PROFILES[0].id);
+  const [sandboxMode, setSandboxMode] = useState<SandboxMode>('scribe');
+
+  const handleOpenSandbox = (mode: SandboxMode) => {
+    setSandboxMode(mode);
+    window.setTimeout(() => {
+      document.getElementById('section-sandbox')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 40);
+  };
 
   const activeSpecialty =
     SPECIALTY_PROFILES.find((s) => s.id === activeSpecialtyId) || SPECIALTY_PROFILES[0];
@@ -196,6 +205,15 @@ export const PlatformScreen: React.FC<PlatformScreenProps> = ({
       {/* 1. Clinic workflow introduction */}
       <HeroWorkflow
         onNavigateSection={onNavigateSection}
+        onOpenSandbox={handleOpenSandbox}
+      />
+
+      {/* 2. Interactive Scribe Simulator, AI Billing Demo & Recorded Walkthrough Video */}
+      <InteractiveScribeSandbox
+        key={sandboxMode}
+        initialMode={sandboxMode}
+        onNotify={onNotify}
+        onRequestWalkthrough={(prefill) => prefillAndScrollToContact(prefill)}
       />
 
       {/* 3. Interactive Workspace Preview: Ambient AI Medical Scribe & Encoding */}

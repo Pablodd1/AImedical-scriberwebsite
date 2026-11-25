@@ -5,17 +5,19 @@
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href="https://aiscribers.com/" />
+    <link rel="help" type="text/plain" href="/llms.txt" />
     <meta property="og:url" content="https://aiscribers.com/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <title>AIMS | Medical Scribe and Clinic Workflow</title>
     <meta
       name="description"
-      content="Explore sample AIMS workflows for patient intake, draft visit notes, clinician review, and billing. Request a walkthrough for your practice."
+      content="Try the interactive AIMS Scribe Simulator, test the AI Billing and Office Ally 837P Claim Scrubber live, watch the recorded product walkthrough, or request a clinic walkthrough."
     />
     <meta property="og:title" content="AIMS | Medical Scribe and Clinic Workflow" />
     <meta
       property="og:description"
-      content="Explore sample AIMS workflows for patient intake, draft visit notes, clinician review, and billing. Request a walkthrough for your practice."
+      content="Try the interactive AIMS Scribe Simulator, test the AI Billing and Office Ally 837P Claim Scrubber live, watch the recorded product walkthrough, or request a clinic walkthrough."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
@@ -29,9 +31,42 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "AIMS Clinical Platform",
+            "url": "https://aiscribers.com/",
+            "email": "jasmelacosta@gmail.com",
+            "telephone": "+1-786-643-2099",
+            "sameAs": [
+              "https://www.instagram.com/aiscribers/",
+              "https://aimedicalscriber.com/login"
+            ]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "AIMS — AI Medical Scribe & Unified EHR",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web",
+            "url": "https://aiscribers.com/",
+            "description": "Ambient AI Medical Scribe, Unified Longitudinal EHR, 33-question multilingual intake forms with Visual OCR, ICD-10/CPT encoding, and Office Ally 837P billing scrubber."
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <main style="max-width:860px;margin:2rem auto;padding:1rem;font-family:system-ui,sans-serif;">
+        <h1>AIMS — AI Medical Scribe and Clinic Workflow</h1>
+        <p>Explore the interactive AIMS Scribe Simulator, test AI Medical Billing &amp; Office Ally 837P scrubbing, and watch the recorded product walkthrough at https://aiscribers.com/.</p>
+        <p>Existing clinics can sign in at <a href="https://aimedicalscriber.com/login">https://aimedicalscriber.com/login</a>. To request a live walkthrough (we will reply to agree on a time), email <a href="mailto:jasmelacosta@gmail.com">jasmelacosta@gmail.com</a> or call <a href="tel:+17866432099">(786) 643-2099</a>.</p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

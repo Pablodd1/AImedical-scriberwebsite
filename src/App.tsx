@@ -528,7 +528,7 @@ export default function App() {
                   <li>
                     <button
                       type="button"
-                      onClick={() => handleNavigateSection('security-hipaa', 'section-pricing')}
+                      onClick={() => handleNavigateSection('security-hipaa', 'section-sandbox')}
                       className="hover:text-text-primary transition-colors cursor-pointer"
                     >
                       Clinic Plans &amp; Sandbox

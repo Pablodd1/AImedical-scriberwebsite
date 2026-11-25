@@ -1,0 +1,19 @@
+# AIMS — AI Medical Scribe & Clinic Workflow Platform
+
+> Official product preview, interactive browser sandbox, and walkthrough request portal at https://aiscribers.com/ (Clinical EHR login at https://aimedicalscriber.com/login).
+
+## Core Capabilities & Interactive Demos on aiscribers.com
+- **Interactive Scribe Simulator (`/#overview`, `/#ai-scribe`):** Test patientless consultation transcripts (Chiropractic/Spine MVA, Primary Care, Orthopedics/Pain, or custom dictation) to generate structured SOAP notes, strict separation of *Performed Today* vs. *Planned/Future* orders, and suggested ICD-10 / CPT codes.
+- **Interactive AI Billing & Office Ally 837P Scrubber Demo (`/#billing`):** Test pre-sign coding rules, Modifier -25 substantiation, subluxation region pairing, and ANSI X12 837P EDI claim payload generation.
+- **Recorded Product Walkthrough Video (`/videos/aims-hero-reel.mp4`):** 4-chapter recorded interface walkthrough covering Smart Intake & Visual OCR, Ambient AI Medical Scribe, Multi-Agent Medical Encoding, and AI Billing & Office Ally.
+- **7-Step Patient Flow (`/#patient-flow`):** Interactive step-by-step walkthrough from 33-question multilingual intake (English, Spanish, Haitian Kreyòl) and Visual OCR to provider e-signature.
+
+## How Walkthrough Scheduling & Dedicated Sandboxes Work
+- Public visitors can use the in-browser Scribe Simulator, AI Billing Scrubber, and Recorded Walkthrough Video immediately without signing in.
+- There is no self-serve automated calendar link on the website. Visitors submit the walkthrough request form (`/#contact`), receive an immediate on-screen reference ID and confirmation receipt, and Jasmel Acosta replies directly by email or phone to agree on a walkthrough time and provision dedicated multi-user EHR sandbox accounts.
+
+## Direct Contact
+- **Contact Person:** Jasmel Acosta
+- **Email:** jasmelacosta@gmail.com
+- **Phone:** +1 (786) 643-2099
+- **Clinical EHR Sign-In:** https://aimedicalscriber.com/login

@@ -1,4 +1,4 @@
-import { ReviewContact, siteReview } from './ReviewContact';
+import { prefillAndScrollToContact, ReviewContact, siteReview } from './ReviewContact';
 import React, { useMemo, useState } from 'react';
 import {
   AUTOMATION_SYSTEMS,
@@ -8,6 +8,7 @@ import {
 import { BookDemoSection } from './BookDemoSection';
 import { LegalModalTab } from './ClinicTrustModals';
 import { GlassCard } from './GlassCard';
+import { InteractiveScribeSandbox, SandboxMode } from './InteractiveScribeSandbox';
 
 interface SecurityAndBillingScreenProps {
   onNotify: (msg: string) => void;
@@ -71,9 +72,18 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
   const [consentLocked, setConsentLocked] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<number>(0);
   const [automationView, setAutomationView] = useState<'workflows' | 'matrix'>('workflows');
+  const [sandboxMode, setSandboxMode] = useState<SandboxMode>('billing');
 
-  const scrollToBookDemo = () => {
-    document.getElementById('book-demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const openSandbox = (mode: SandboxMode, toast?: string) => {
+    setSandboxMode(mode);
+    if (toast) onNotify(toast);
+    window.setTimeout(() => {
+      document.getElementById('section-sandbox')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 40);
+  };
+
+  const scrollToBookDemo = (prefill?: string) => {
+    prefillAndScrollToContact(prefill);
   };
 
   const [claims, setClaims] = useState<OfficeAllyClaim[]>([
@@ -151,14 +161,34 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={scrollToBookDemo}
-              className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-lg">receipt_long</span>
-              <span>See AI Billing Live</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => openSandbox('billing', 'Opened interactive AI Billing & Office Ally 837P Scrubber demo')}
+                className="inline-flex items-center gap-2 rounded-xl bg-clinical-teal hover:bg-primary-container text-on-primary px-5 py-2.5 font-body-md font-semibold shadow-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">receipt_long</span>
+                <span>See AI Billing Live</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openSandbox('scribe', 'Opened interactive Scribe Simulator')}
+                className="inline-flex items-center gap-2 rounded-xl bg-surface-canvas hover:bg-surface-panel border border-border-subtle text-text-primary px-4 py-2.5 font-body-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg text-clinical-teal">mic</span>
+                <span>Try Scribe Simulator</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => openSandbox('video', 'Opened recorded walkthrough video')}
+                className="inline-flex items-center gap-2 rounded-xl bg-surface-canvas hover:bg-surface-panel border border-border-subtle text-text-primary px-4 py-2.5 font-body-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg text-clinical-teal">smart_display</span>
+                <span>Watch Recorded Walkthrough</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -589,19 +619,27 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
           </div>
         </section>
 
+        {/* Interactive Sandbox & Recorded Walkthrough Hub */}
+        <InteractiveScribeSandbox
+          key={sandboxMode}
+          initialMode={sandboxMode}
+          onNotify={onNotify}
+          onRequestWalkthrough={(prefill) => scrollToBookDemo(prefill)}
+        />
+
         {/* Clinic Deployment Plans */}
         <section id="section-pricing" className="flex flex-col gap-6 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <span className="font-caption text-clinical-teal font-semibold">
-                Practice Rollout &amp; Guided Onboarding
+                Practice Rollout, Sandbox &amp; Guided Onboarding
               </span>
               <h2 className="font-headline-lg text-text-primary mt-1">
                 Onboarding for different practice sizes
               </h2>
             </div>
             <span className="font-body-sm text-text-secondary">
-              Ask about staff training and chart migration during your walkthrough.
+              Test the interactive sandbox above, or send a request below and we&rsquo;ll agree on a walkthrough time.
             </span>
           </div>
 
@@ -611,20 +649,23 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                 tier: 'Solo Practice Edition',
                 badge: '1 Provider + Front Desk',
                 desc: 'Full Unified EHR, 7-step flow + 60s Quick-Note, Ambient AI Medical Scribe with review, 33-question spoken intake, Visual OCR, and Patient Portal.',
-                cta: 'Request Solo Demo & Quote',
+                sandboxMode: 'scribe' as SandboxMode,
+                requestLabel: 'Request Solo Walkthrough (Agree on a Time)',
               },
               {
                 tier: 'Multi-Provider Clinic Suite',
                 badge: 'Most Popular · Full AI Billing',
                 desc: 'Adds the clinical review, full AI Medical Coding & Encoding, automated superbill scrubbing, and direct Office Ally clearinghouse integration.',
-                cta: 'Book Clinic Suite Walkthrough',
+                sandboxMode: 'billing' as SandboxMode,
+                requestLabel: 'Request Clinic Suite Walkthrough (Agree on a Time)',
                 featured: true,
               },
               {
                 tier: 'Multi-Site Group Edition',
                 badge: 'Multi-Location + 24/7 AI',
                 desc: 'Includes multi-location EHR governance, 24/7 AI Virtual Receptionist, morning executive provider briefings, and dedicated Office Ally migration engineering.',
-                cta: 'Configure Group Rollout',
+                sandboxMode: 'video' as SandboxMode,
+                requestLabel: 'Request Group Walkthrough (Agree on a Time)',
               },
             ].map((plan) => (
               <GlassCard
@@ -639,17 +680,36 @@ export const SecurityAndBillingScreen: React.FC<SecurityAndBillingScreenProps> =
                   <p className="font-body-sm text-text-secondary leading-relaxed">{plan.desc}</p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={scrollToBookDemo}
-                  className={`w-full text-center py-2.5 px-4 rounded-xl font-body-md font-semibold transition-colors cursor-pointer ${
-                    plan.featured
-                      ? 'bg-clinical-teal hover:bg-primary-container text-on-primary'
-                      : 'bg-surface-canvas hover:bg-surface-container-low border border-border-subtle text-text-primary'
-                  }`}
-                >
-                  {plan.cta}
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openSandbox(
+                        plan.sandboxMode,
+                        `Loaded interactive sandbox for ${plan.tier}`
+                      )
+                    }
+                    className={`w-full text-center py-2.5 px-4 rounded-xl font-body-sm font-semibold transition-colors cursor-pointer ${
+                      plan.featured
+                        ? 'bg-clinical-teal hover:bg-primary-container text-on-primary'
+                        : 'bg-surface-canvas hover:bg-clinical-teal-subtle border border-border-subtle text-clinical-teal'
+                    }`}
+                  >
+                    Try Interactive Sandbox &amp; Video ↑
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollToBookDemo(
+                        `Interested in ${plan.tier}. Let’s agree on a time for a live walkthrough.`
+                      )
+                    }
+                    className="w-full text-center py-2 px-3 rounded-xl font-caption font-semibold text-text-secondary hover:text-clinical-teal underline underline-offset-4 cursor-pointer"
+                  >
+                    {plan.requestLabel}
+                  </button>
+                </div>
               </GlassCard>
             ))}
           </div>
